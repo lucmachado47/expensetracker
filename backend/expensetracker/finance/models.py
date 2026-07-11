@@ -7,25 +7,33 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
     def __str__(self):
-        return self.user
+        return str(self.user)
 
 class Frequency(models.TextChoices):
-    FIXED = "Fixed", "Fixed"
-    VARIABLE = "Variable", "Variable"
-    ONE_TIME = "One-time", "One-time"
+    FIXED = "FIXED", "Fixed"
+    VARIABLE = "VARIABLE", "Variable"
+    ONE_TIME = "ONE_TIME", "One-time"
 
 class Category(models.Model):
     category_name = models.CharField(max_length=50)
     frequency = models.CharField(max_length=20, choices=Frequency.choices)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'category_name'],
+                name='unique_category_per_user'
+            )
+        ]
+
     def __str__(self):
         return self.category_name
 
 class TransactionType(models.TextChoices):
-    INCOME = "Income", "Income"
-    EXPENSE = "Expense", "Expense"
-    INVESTMENT = "Investment", "Investment"
+    INCOME = "INCOME", "Income"
+    EXPENSE = "EXPENSE", "Expense"
+    INVESTMENT = "INVESTMENT", "Investment"
 
 class Transaction(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -39,10 +47,3 @@ class Transaction(models.Model):
     def __str__(self):
         return f"{self.transaction_type} - {self.transaction_amount} on {self.transaction_date}"
 
-class Meta:
-    constraints = [
-        models.UniqueConstraint(
-            fields=['user', 'category_name'],
-            name='unique_category_per_user'
-        )
-    ]

@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('category_name', models.CharField(max_length=50)),
-                ('frequency', models.CharField(choices=[('Fixed', 'Fixed'), ('Variable', 'Variable'), ('One-time', 'One-time')], max_length=20)),
+                ('frequency', models.CharField(choices=[('FIXED', 'Fixed'), ('VARIABLE', 'Variable'), ('ONE_TIME', 'One-time')], max_length=20)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
             name='Transaction',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('transaction_type', models.CharField(choices=[('Income', 'Income'), ('Expense', 'Expense'), ('Investment', 'Investment')], max_length=20)),
+                ('transaction_type', models.CharField(choices=[('INCOME', 'Income'), ('EXPENSE', 'Expense'), ('INVESTMENT', 'Investment')], max_length=20)),
                 ('transaction_amount', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('transaction_date', models.DateField()),
                 ('description', models.TextField(blank=True)),
