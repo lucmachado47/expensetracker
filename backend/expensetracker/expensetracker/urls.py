@@ -16,7 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin  # type: ignore
 from django.urls import path  # type: ignore
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+from finance.views import RegisterView, SecretDataView  # type: ignore
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('api/register/', RegisterView.as_view(), name='register'),
+    path('api/secret/', SecretDataView.as_view(), name='secret_data'),
+
 ]
