@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model # type: ignore
 from rest_framework import serializers # type: ignore
 
+from finance.models import Category, Transaction # type: ignore
+
 User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -24,5 +26,25 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=password,
             **validated_data
         )
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = "__all__"
+        read_only_fields = ["user"]
+
+class TransactionSerializer(serializers.ModelSerializer):
     
+    def validate_category(self, value):
+        user = self.context['request'].user
+        if value.user != user:
+            raise serializers.ValidationError("Category does not belong to the authenticated user.")
+        return value
+
+    class Meta:
+        model = Transaction
+        fields = "__all__"
+        read_only_fields = ["user"]
+
         

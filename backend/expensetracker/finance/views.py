@@ -1,7 +1,9 @@
 from rest_framework.response import Response # type: ignore
-from rest_framework import status # type: ignore
+from rest_framework import status, generics # type: ignore
 from rest_framework.views import APIView # type: ignore
-from .serializers import RegisterSerializer # type: ignore
+
+from finance.models import Category, Transaction # type: ignore
+from .serializers import CategorySerializer, TransactionSerializer, RegisterSerializer # type: ignore
 from rest_framework.permissions import IsAuthenticated # type: ignore
 
 # Create your views here.
@@ -31,3 +33,45 @@ class SecretDataView(APIView):
             "message": "This is secret data accessible only to authenticated users.",
             "user": request.user.username,
         })
+
+class CategoryListCreateView(generics.ListCreateAPIView): # type: ignore
+    """Endpoint for listing and creating categories. Requires authentication."""
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        return Category.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView): # type: ignore
+    """Endpoint for retrieving, updating, and deleting a category. Requires authentication."""
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        return Category.objects.filter(user=self.request.user)
+    
+class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
+    """Endpoint for listing and creating transactions. Requires authentication."""
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+
+    def get_queryset(self):
+        return Transaction.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class TransactionDetailView(generics.RetrieveUpdateDestroyAPIView): # type: ignore
+    """Endpoint for retrieving, updating, and deleting a transaction. Requires authentication."""
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = TransactionSerializer
+
+    def get_queryset(self):
+        return Transaction.objects.filter(user=self.request.user)

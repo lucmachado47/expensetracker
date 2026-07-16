@@ -18,7 +18,7 @@ from django.contrib import admin  # type: ignore
 from django.urls import path  # type: ignore
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from finance.views import RegisterView, SecretDataView  # type: ignore
+from finance.views import CategoryListCreateView, CategoryDetailView, RegisterView, SecretDataView, TransactionListCreateView, TransactionDetailView  # type: ignore
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +29,8 @@ urlpatterns = [
     path('api/register/', RegisterView.as_view(), name='register'),
     path('api/secret/', SecretDataView.as_view(), name='secret_data'),
 
+    path('api/categories/', CategoryListCreateView.as_view(), name='category_list_create'),
+    path('api/categories/<int:pk>/', CategoryDetailView.as_view(), name='category_detail'),
+    path('api/transactions/', TransactionListCreateView.as_view(), name='transaction_list_create'),
+    path('api/transactions/<int:pk>/', TransactionDetailView.as_view(), name='transaction_detail'),
 ]
