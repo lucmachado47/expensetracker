@@ -1,3 +1,8 @@
+import {
+    API_URL,
+    apiRequest,
+} from './api.js'
+
 document.addEventListener('DOMContentLoaded', function() {
   const registerForm = document.getElementById('registerForm')
 
@@ -9,15 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const data = Object.fromEntries(formData)
 
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/register/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
-
+        const response = await apiRequest(`${API_URL}/register/`, 'POST', data)
+  
         if (response.ok) {
+          alert('Account created successfully!')
           window.location.href = 'login.html'
         } else {
           const errorData = await response.json()

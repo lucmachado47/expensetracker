@@ -1,3 +1,8 @@
+import {
+    API_URL,
+    apiRequest,
+} from './api.js'
+
 document.addEventListener('DOMContentLoaded', function() 
 {
     const loginForm = document.getElementById('loginForm')
@@ -10,11 +15,12 @@ document.addEventListener('DOMContentLoaded', function()
             const data = Object.fromEntries(formData)
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/token/', {
-                    method: 'POST',
-                    headers:{ 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data),
-                })
+                const response = await apiRequest(
+                    `${API_URL}/token/`,
+                    'POST', 
+                    data
+                )
+
                 if (response.ok) {
                     const responseData = await response.json()
                     localStorage.setItem('access_token', responseData.access)

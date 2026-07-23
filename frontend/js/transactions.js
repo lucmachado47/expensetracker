@@ -1,3 +1,9 @@
+import {
+    checkAuthentication,
+    API_URL,
+    apiRequest,
+} from './api.js'
+
 document.addEventListener('DOMContentLoaded', function() { 
     checkAuthentication()
     createTransaction()
@@ -5,16 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCategories()
 })
 
-checkAuthentication = () => {
-    const accessToken = localStorage.getItem('access_token')
-
-    if (!accessToken) {
-        window.location.href = 'login.html'
-    }
-} 
-
-createTransaction = async () => {
-    const accessToken = localStorage.getItem('access_token')
+const createTransaction = async () => {
     const transactionForm = document.getElementById('transactionForm')
 
     if (transactionForm) {
@@ -25,14 +22,7 @@ createTransaction = async () => {
             const data = Object.fromEntries(formData)
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/transactions/', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
+                const response = await apiRequest(`${API_URL}/transactions/`, 'POST', data)
 
                 if (response.ok) {
                     await response.json()
@@ -50,18 +40,12 @@ createTransaction = async () => {
     }
 }
 
-loadTransactions = async () => {
-    const accessToken = localStorage.getItem('access_token')
+const loadTransactions = async () => {
     const transactionTableBody = document.getElementById('transactionTableBody')
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/transactions/', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        })
+        const response = await apiRequest(`${API_URL}/transactions/`, 'GET')
+
         if (!response.ok) {
             throw new Error('Failed to load transactions')
         }
@@ -82,18 +66,12 @@ loadTransactions = async () => {
     }
 }
 
-loadCategories = async () => {
-    const accessToken = localStorage.getItem('access_token')
+const loadCategories = async () => {
     const transactionCategory = document.getElementById('transactionCategory')
 
     try {
-        const response = await fetch('http://127.0.0.1:8000/api/categories/', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            }
-        })
+        const response = await apiRequest(`${API_URL}/categories/`, 'GET')
+        
         if (!response.ok) {
             throw new Error('Failed to load categories')
         }
