@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions</title>
+    <link rel="stylesheet" href="css/transactions.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="categories.html">Categories</a>
+        </nav>
+    </header>
+    <main>
+        <div class="transaction-card">
+            <h1>Create Transaction</h1>
+            <form id="transactionForm">
+                <div class="form-group">
+                    <label for="transactionCategory">Category:</label>
+                    <select id="transactionCategory" name="category" required>
+                        <option value="">Select a category</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="transactionType">Transaction Type:</label>
+                    <select id="transactionType" name="transaction_type" required>
+                        <option value="INCOME">Income</option>
+                        <option value="EXPENSE">Expense</option>
+                        <option value="INVESTMENT">Investment</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="transactionAmount">Amount:</label>
+                    <input type="number" id="transactionAmount" name="transaction_amount" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="transactionDate">Date:</label>
+                    <input type="date" id="transactionDate" name="transaction_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="transactionDescription">Description:</label>
+                    <textarea id="transactionDescription" name="description" required></textarea>
+                </div>
+                <button type="submit" class="submit-button" id="submitTransaction">Create Transaction</button>
+            </form>
+        </div>
+        <div class="transactionsTable">
+            <h2>Transactions</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionTableBody">
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="js/transactions.js"></script>
+</body>
+</html>

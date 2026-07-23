@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories</title>
+    <link rel="stylesheet" href="css/categories.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="transactions.html">Transactions</a>
+        </nav>
+    </header>
+    <main>
+        <div class="category-card">
+            <h1>Create Category</h1>
+            <form id="categoryForm">
+                <div class="form-group">
+                    <label for="categoryName">Category Name:</label>
+                    <input type="text" id="categoryName" name="category_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="frequency">Frequency:</label>
+                    <select id="frequency" name="frequency" required>
+                        <option value="FIXED">Fixed</option>
+                        <option value="VARIABLE">Variable</option>
+                        <option value="ONE_TIME">One-time</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-button" id="submitCategory">Create Category</button>
+            </form>
+        </div>
+        <div class="categoryTable">
+            <h2>Categories</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Frequency</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryTableBody">
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="js/categories.js"></script>
+</body>
+</html>

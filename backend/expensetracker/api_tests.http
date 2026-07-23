@@ -1,2 +1,11 @@
-GET HTTP/1.1 http://127.0.0.1:8000/api/categories/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0MTYwMDQxLCJpYXQiOjE3ODQxNTk3NDEsImp0aSI6Ijk1NDU4ODI5MGM4MjRhZTQ4ZTRiYzUxNmQ3Nzc5YzNlIiwidXNlcl9pZCI6IjMifQ.G-qX6ZrSEaLdIfg00JCVZ3eMiNEKcKwOEeh7WKIS_A4
+POST http://127.0.0.1:8000/api/transactions/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0MjQwMzQxLCJpYXQiOjE3ODQyNDAwNDEsImp0aSI6IjQ3NTkyNTMyODk2NzQzYzBiNzA0Mjc5YzRiZjM2NzkxIiwidXNlcl9pZCI6IjMifQ.O_V5ybX2g_4HzsOJyKGZd2xWj16XsBaYB0zjg1c9Jtc
+Content-Type: application/json
+
+{
+    "category": "5",
+    "transaction_type": "INCOME",
+    "transaction_amount": 5000.00,
+    "transaction_date": "2024-06-01",
+    "description": "Monthly salary"
+}
