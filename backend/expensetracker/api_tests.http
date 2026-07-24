@@ -1,11 +1,8 @@
-POST http://127.0.0.1:8000/api/transactions/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0MjQwMzQxLCJpYXQiOjE3ODQyNDAwNDEsImp0aSI6IjQ3NTkyNTMyODk2NzQzYzBiNzA0Mjc5YzRiZjM2NzkxIiwidXNlcl9pZCI6IjMifQ.O_V5ybX2g_4HzsOJyKGZd2xWj16XsBaYB0zjg1c9Jtc
+GET http://127.0.0.1:8000/api/transactions/?month=7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzg0ODU4ODM5LCJpYXQiOjE3ODQ4NTg1MzksImp0aSI6IjU0ZmM0Y2U3ZjJhZjQ3ZTk4NTc1NGRkZThlYjdjODM3IiwidXNlcl9pZCI6IjYifQ.9VuhwoYIKawiK38uSNU1xB8RikAMaHRK7hGpvLMm7us
 Content-Type: application/json
 
 {
-    "category": "5",
-    "transaction_type": "INCOME",
-    "transaction_amount": 5000.00,
-    "transaction_date": "2024-06-01",
-    "description": "Monthly salary"
+    "username": "teste1234",
+    "password": "12345678"
 }

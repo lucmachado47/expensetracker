@@ -1,7 +1,7 @@
 from rest_framework.response import Response # type: ignore
 from rest_framework import status, generics # type: ignore
 from rest_framework.views import APIView # type: ignore
-
+from rest_framework.exceptions import ValidationError # type: ignore
 from finance.models import Category, Transaction # type: ignore
 from .serializers import CategorySerializer, TransactionSerializer, RegisterSerializer # type: ignore
 from rest_framework.permissions import IsAuthenticated # type: ignore
@@ -62,7 +62,32 @@ class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
     serializer_class = TransactionSerializer
 
     def get_queryset(self):
-        return Transaction.objects.filter(user=self.request.user)
+        queryset = Transaction.objects.filter(user=self.request.user)
+
+        month = self.request.query_params.get('month')
+        year = self.request.query_params.get('year')
+
+        if month:
+            try:
+                month = int(month)
+            except ValueError:
+                    raise ValidationError({"month": "Month must be an integer."})
+            
+            if not 1 <= month <= 12: 
+                raise ValidationError({"month": "Month must be between 1 and 12."})   
+            
+            queryset = queryset.filter(transaction_date__month=month)
+            
+
+        if year:
+            try:
+                year = int(year)
+            except ValueError:
+                raise ValidationError({"year": "Year must be an integer."}) 
+             
+            queryset = queryset.filter(transaction_date__year=year)
+
+        return queryset 
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
