@@ -1,11 +1,24 @@
+/** Supplies date selection and Chart.js rendering for the dashboard. */
+
+/**
+ * Reads the reporting month selected in the dashboard.
+ *
+ * @returns {number} Selected month number.
+ */
 export const getSelectedMonth = () => {
     return Number(document.getElementById('selectedMonth').value)
 }
 
+/**
+ * Reads the reporting year selected in the dashboard.
+ *
+ * @returns {number} Selected year number.
+ */
 export const getSelectedYear = () => {
     return Number(document.getElementById('selectedYear').value)
 }
 
+/** Populates a useful reporting range centered on the current year. */
 export const populateYearDropdown = () => {
     const yearDropdown = document.getElementById('selectedYear')
 
@@ -24,10 +37,18 @@ export const populateYearDropdown = () => {
 
 let chart
 
+/**
+ * Rebuilds the monthly totals chart using the latest dashboard data.
+ *
+ * Expense is green when income covers it and red when it exceeds income.
+ *
+ * @param {Object} totals Aggregated income, expense, and investment values.
+ */
 export const createChart = (totals) => {
     const ctx = document.getElementById('myChart');
 
     if (chart) {
+        // Destroy the old instance to avoid drawing duplicate charts after filtering.
         chart.destroy()
     }
     chart = new Chart(ctx, {

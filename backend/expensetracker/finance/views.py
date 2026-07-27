@@ -1,3 +1,5 @@
+"""REST API views for registration and authenticated finance data management."""
+
 from rest_framework.response import Response # type: ignore
 from rest_framework import status, generics # type: ignore
 from rest_framework.views import APIView # type: ignore
@@ -6,12 +8,12 @@ from finance.models import Category, Transaction # type: ignore
 from .serializers import CategorySerializer, TransactionSerializer, RegisterSerializer # type: ignore
 from rest_framework.permissions import IsAuthenticated # type: ignore
 
-# Create your views here.
-
 class RegisterView(APIView):
-    """Endpoint for registering a new user. POST username, email, password, password2."""
+    """Register a new user from username, email, and matching passwords."""
 
     def post(self, request):
+        """Validate registration data and return the new user's public details."""
+
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
@@ -24,50 +26,64 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class SecretDataView(APIView):
-    """Endpoint for accessing secret data. Requires authentication."""
+    """Provide a minimal endpoint for verifying JWT-protected access."""
 
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        """Return content that is available only to the authenticated user."""
+
         return Response({
             "message": "This is secret data accessible only to authenticated users.",
             "user": request.user.username,
         })
 
 class CategoryListCreateView(generics.ListCreateAPIView): # type: ignore
-    """Endpoint for listing and creating categories. Requires authentication."""
+    """List and create categories that belong to the authenticated user."""
 
     permission_classes = [IsAuthenticated]
     serializer_class = CategorySerializer
 
     def get_queryset(self):
+        """Limit results to the current user so categories remain private."""
+
         return Category.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
+        """Assign ownership server-side instead of accepting it from the request."""
+
         serializer.save(user=self.request.user)
 
 class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView): # type: ignore
-    """Endpoint for retrieving, updating, and deleting a category. Requires authentication."""
+    """Retrieve, update, or delete a category owned by the authenticated user."""
 
     permission_classes = [IsAuthenticated]
     serializer_class = CategorySerializer
 
     def get_queryset(self):
+        """Restrict detail operations to categories owned by the current user."""
+
         return Category.objects.filter(user=self.request.user)
     
 class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
-    """Endpoint for listing and creating transactions. Requires authentication."""
+    """List and create authenticated user's transactions.
+
+    Supports optional filtering through month and year query parameters.
+    """
 
     permission_classes = [IsAuthenticated]
     serializer_class = TransactionSerializer
 
     def get_queryset(self):
+        """Return private transactions, optionally narrowed to a reporting period."""
+
         queryset = Transaction.objects.filter(user=self.request.user)
 
         month = self.request.query_params.get('month')
         year = self.request.query_params.get('year')
 
         if month:
+            # Validate the calendar month before applying the dashboard filter.
             try:
                 month = int(month)
             except ValueError:
@@ -80,6 +96,7 @@ class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
             
 
         if year:
+            # Validate the optional reporting year before querying by date.
             try:
                 year = int(year)
             except ValueError:
@@ -90,13 +107,17 @@ class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
         return queryset 
 
     def perform_create(self, serializer):
+        """Assign transaction ownership from the JWT-authenticated request."""
+
         serializer.save(user=self.request.user)
 
 class TransactionDetailView(generics.RetrieveUpdateDestroyAPIView): # type: ignore
-    """Endpoint for retrieving, updating, and deleting a transaction. Requires authentication."""
+    """Retrieve, update, or delete a transaction owned by the current user."""
 
     permission_classes = [IsAuthenticated]
     serializer_class = TransactionSerializer
 
     def get_queryset(self):
+        """Restrict detail operations to transactions owned by the current user."""
+
         return Transaction.objects.filter(user=self.request.user)

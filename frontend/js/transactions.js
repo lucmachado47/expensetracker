@@ -1,3 +1,5 @@
+/** Handles authenticated transaction creation, listing, and category selection. */
+
 import {
     checkAuthentication,
     API_URL,
@@ -11,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCategories()
 })
 
+/** Submits a transaction through the shared helper so its JWT is attached. */
 const createTransaction = async () => {
     const transactionForm = document.getElementById('transactionForm')
 
@@ -40,6 +43,7 @@ const createTransaction = async () => {
     }
 }
 
+/** Loads and renders the current user's transactions in the activity table. */
 const loadTransactions = async () => {
     const transactionTableBody = document.getElementById('transactionTableBody')
 
@@ -66,6 +70,7 @@ const loadTransactions = async () => {
     }
 }
 
+/** Loads user-owned categories so transactions can reference a valid category. */
 const loadCategories = async () => {
     const transactionCategory = document.getElementById('transactionCategory')
 

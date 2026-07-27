@@ -1,3 +1,5 @@
+/** Authenticates users and persists JWTs required by protected application pages. */
+
 import {
     API_URL,
     apiRequest,
@@ -9,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function()
 
     if (loginForm) {
         loginForm.addEventListener('submit', async function(event) {
+            // Persist both tokens so API requests can authenticate and renew the session.
             event.preventDefault()
 
             const formData = new FormData(loginForm)

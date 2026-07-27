@@ -1,3 +1,5 @@
+/** Registers new users and directs successful registrations to the login page. */
+
 import {
     API_URL,
     apiRequest,
@@ -8,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if (registerForm) {
     registerForm.addEventListener('submit', async function(event) {
+      // Registration is separate from login; users authenticate after the account is created.
       event.preventDefault()
 
       const formData = new FormData(registerForm)

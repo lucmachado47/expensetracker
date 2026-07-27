@@ -1,3 +1,5 @@
+/** Handles authenticated category creation and category-list rendering. */
+
 import {
     checkAuthentication,
     API_URL,
@@ -10,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCategories()
 })
  
+/** Submits category data through the shared authenticated API helper. */
 const createCategory = async () => {
     const categoryForm = document.getElementById('categoryForm')
     
@@ -40,6 +43,7 @@ const createCategory = async () => {
     }
 }
 
+/** Loads and renders only the categories returned for the current user. */
 const loadCategories = async () => {
     const categoryTableBody = document.getElementById('categoryTableBody')
 

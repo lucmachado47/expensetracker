@@ -1,3 +1,5 @@
+/** Loads the authenticated user's filtered dashboard data, chart, and transaction tables. */
+
 import {
     checkAuthentication,
     logoutApplication,
@@ -38,6 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
 })
 
+/**
+ * Loads transactions for the selected reporting month and year.
+ *
+ * @returns {Promise<Array>} Transactions belonging to the selected period.
+ */
 const loadDashboardTransactions = async () => {
     const month = getSelectedMonth()
     const year = getSelectedYear()
@@ -56,12 +63,24 @@ const loadDashboardTransactions = async () => {
     return transactions 
 }
 
+/**
+ * Identifies expenses dated after today so planned payments are visible separately.
+ *
+ * @param {Object} transaction Transaction returned by the API.
+ * @returns {boolean} Whether the expense is scheduled in the future.
+ */
 const isPendingTransactions = (transaction) => {
     const today = new Date()
 
     return transaction.transaction_type === 'EXPENSE' && new Date(transaction.transaction_date) > today
 }
 
+/**
+ * Builds table rows and highlights future expenses as pending.
+ *
+ * @param {Array} transactions Transactions for one dashboard section.
+ * @returns {string} HTML rows for the target table body.
+ */
 const renderRows = (transactions) => {
     return transactions.map(transaction => {
         
@@ -80,6 +99,11 @@ const renderRows = (transactions) => {
     }).join('')   
 }
 
+/**
+ * Separates transactions by type so each dashboard table shows one financial flow.
+ *
+ * @param {Array} transactions Transactions returned for the selected period.
+ */
 const renderTransactionTables = (transactions) => {
     const incomeTransactionTableBody = document.getElementById('incomeTransactionTableBody')
     const expenseTransactionTableBody = document.getElementById('expenseTransactionTableBody')
@@ -96,6 +120,12 @@ const renderTransactionTables = (transactions) => {
     investmentTransactionTableBody.innerHTML = renderRows(investments)
 }
 
+/**
+ * Calculates the monthly totals for each transaction type.
+ *
+ * @param {Array} transactions List of transactions returned by the API.
+ * @returns {Object} Aggregated totals used by the dashboard chart.
+ */
 const calculateTotals = (transactions) => {
     const today = new Date()
 
@@ -122,6 +152,7 @@ const calculateTotals = (transactions) => {
     return totals
 }
 
+/** Reloads the selected period so the chart and tables present matching data. */
 const refreshDashboard = async () => {
     const transactions = await loadDashboardTransactions()
     const totals = calculateTotals(transactions)

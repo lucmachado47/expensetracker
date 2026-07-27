@@ -4,3 +4,4 @@ __pycache__/
 db.sqlite3
 .env
 node_modules/
+backend/expensetracker/expensetracker/secrets.py
