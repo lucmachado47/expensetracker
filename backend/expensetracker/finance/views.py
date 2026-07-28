@@ -7,6 +7,7 @@ from rest_framework.exceptions import ValidationError # type: ignore
 from finance.models import Category, Transaction # type: ignore
 from .serializers import CategorySerializer, TransactionSerializer, RegisterSerializer # type: ignore
 from rest_framework.permissions import IsAuthenticated # type: ignore
+from django.db.models import Q # type: ignore
 
 class RegisterView(APIView):
     """Register a new user from username, email, and matching passwords."""
@@ -47,7 +48,18 @@ class CategoryListCreateView(generics.ListCreateAPIView): # type: ignore
     def get_queryset(self):
         """Limit results to the current user so categories remain private."""
 
-        return Category.objects.filter(user=self.request.user)
+        queryset = Category.objects.filter(user=self.request.user)
+
+        search = self.request.query_params.get('search')
+
+        if search: 
+            queryset = queryset.filter(
+                Q(category_name__icontains=search)
+                |
+                Q(frequency__icontains=search)
+            )
+
+        return queryset
 
     def perform_create(self, serializer):
         """Assign ownership server-side instead of accepting it from the request."""
@@ -81,6 +93,8 @@ class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
 
         month = self.request.query_params.get('month')
         year = self.request.query_params.get('year')
+        search = self.request.query_params.get('search')
+        
 
         if month:
             # Validate the calendar month before applying the dashboard filter.
@@ -103,6 +117,15 @@ class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
                 raise ValidationError({"year": "Year must be an integer."}) 
              
             queryset = queryset.filter(transaction_date__year=year)
+
+        if search:
+            queryset = queryset.filter(
+                Q(category__category_name__icontains=search)
+                |
+                Q(transaction_type__icontains=search)
+                |
+                Q(description__icontains=search)
+            )
 
         return queryset 
 

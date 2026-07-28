@@ -46,14 +46,15 @@ const createTransaction = async () => {
 /** Loads and renders the current user's transactions in the activity table. */
 const loadTransactions = async () => {
     const transactionTableBody = document.getElementById('transactionTableBody')
-
+ 
     try {
         const response = await apiRequest(`${API_URL}/transactions/`, 'GET')
 
         if (!response.ok) {
             throw new Error('Failed to load transactions')
         }
-        const transactions = await response.json()
+        const data = await response.json()
+        const transactions = data.results
         transactionTableBody.innerHTML = ''
         transactionTableBody.innerHTML = transactions.map(transaction => `
             <tr>
@@ -80,7 +81,8 @@ const loadCategories = async () => {
         if (!response.ok) {
             throw new Error('Failed to load categories')
         }
-        const categories = await response.json()
+        const data = await response.json()
+        const categories = data.results
         transactionCategory.innerHTML = '<option value="">Select a category</option>'
         for (const category of categories) {
             const option = new Option(category.category_name, category.id)

@@ -42,7 +42,7 @@ const createCategory = async () => {
         })
     }
 }
-
+ 
 /** Loads and renders only the categories returned for the current user. */
 const loadCategories = async () => {
     const categoryTableBody = document.getElementById('categoryTableBody')
@@ -53,7 +53,9 @@ const loadCategories = async () => {
         if (!response.ok) {
             throw new Error('Failed to load categories')
         }
-        const categories = await response.json()
+        const data = await response.json()
+
+        const categories = data.results
         
         categoryTableBody.innerHTML = categories.map(category => `
             <tr>

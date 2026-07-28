@@ -58,9 +58,9 @@ const loadDashboardTransactions = async () => {
         throw new Error('Failed to load transactions')
     }
 
-    const transactions = await response.json()
+    const data = await response.json()
 
-    return transactions 
+    return data
 }
 
 /**
@@ -155,9 +155,9 @@ const calculateTotals = (transactions) => {
 /** Reloads the selected period so the chart and tables present matching data. */
 const refreshDashboard = async () => {
     const transactions = await loadDashboardTransactions()
-    const totals = calculateTotals(transactions)
+    const totals = calculateTotals(transactions.results)
     createChart(totals)
-    renderTransactionTables(transactions)
+    renderTransactionTables(transactions.results)
 }
 
 
