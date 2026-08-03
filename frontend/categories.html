@@ -34,19 +34,27 @@
         </div>
         <div class="categoryTable">
             <h2>Categories</h2>
+            <label for="categorySearch">Search Categories:</label>
+            <input type="text" id="categorySearch" placeholder="Enter category name...">
             <table>
                 <thead>
                     <tr>
                         <th>Category Name</th>
                         <th>Frequency</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="categoryTableBody">
                 </tbody>
             </table>
         </div>
+            <div id="pagination">
+            <button id="previousPage">Previous</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage">Next</button>
+        </div>
     </main>
     <footer></footer>
     <script type="module" src="js/categories.js"></script>
 </body>
-</html>
+</html>  

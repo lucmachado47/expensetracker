@@ -14,6 +14,27 @@
         </nav>
     </header>
     <main>
+        <div id="periodNav">
+            <label for="month">Month:</label>
+            <select id="selectedMonth" name="month">
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option> 
+            </select>
+            <label for="year">Year:</label>
+            <select id="selectedYear" name="year">
+                <option value="">Select a year</option>
+            </select>
+        </div>
         <div class="transaction-card">
             <h1>Create Transaction</h1>
             <form id="transactionForm">
@@ -48,6 +69,8 @@
         </div>
         <div class="transactionsTable">
             <h2>Transactions</h2>
+            <label for="transactionSearch">Search Transactions:</label>
+            <input type="text" id="transactionSearch" placeholder="Enter transaction description...">
             <table>
                 <thead>
                     <tr>
@@ -56,13 +79,19 @@
                         <th>Amount</th>
                         <th>Date</th>
                         <th>Description</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="transactionTableBody">
                 </tbody>
             </table>
         </div>
-    </main>
+        <div id="pagination">
+            <button id="previousPage">Previous</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage">Next</button>
+        </div>
+    </main> 
     <footer></footer>
     <script type="module" src="js/transactions.js"></script>
 </body>

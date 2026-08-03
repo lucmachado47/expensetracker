@@ -61,7 +61,7 @@ const loadDashboardTransactions = async () => {
     const data = await response.json()
 
     return data
-}
+} 
 
 /**
  * Identifies expenses dated after today so planned payments are visible separately.

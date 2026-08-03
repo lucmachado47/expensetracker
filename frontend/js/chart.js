@@ -7,7 +7,7 @@
  */
 export const getSelectedMonth = () => {
     return Number(document.getElementById('selectedMonth').value)
-}
+} 
 
 /**
  * Reads the reporting year selected in the dashboard.
