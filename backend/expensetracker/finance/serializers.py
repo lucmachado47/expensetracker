@@ -45,6 +45,11 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class TransactionSerializer(serializers.ModelSerializer):
     """Expose transaction data and enforce ownership of the selected category."""
+
+    category_name = serializers.CharField(
+        source='category.category_name', 
+        read_only=True
+    )
     
     def validate_category(self, value):
         """Prevent users from attaching transactions to another user's category."""

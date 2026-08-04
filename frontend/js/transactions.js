@@ -15,7 +15,7 @@ import {
 document.addEventListener('DOMContentLoaded', function() { 
     checkAuthentication()
     populateYearDropdown()
-    loadTransactions()
+    
     loadCategories()
     createTransaction()
     
@@ -56,6 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
             currentPage++
             loadTransactions()
         })
+
+    loadTransactions()
 
     window.editTransaction = editTransaction
     window.deleteTransaction = deleteTransaction
@@ -133,7 +135,7 @@ const loadTransactions = async () => {
     
         transactionTableBody.innerHTML = transactions.map(transaction => `
             <tr>
-                <td>${transaction.category}</td>
+                <td>${transaction.category_name}</td>
                 <td>${transaction.transaction_type}</td>
                 <td>${transaction.transaction_amount}</td>
                 <td>${transaction.transaction_date}</td>
