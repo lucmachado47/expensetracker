@@ -5,6 +5,7 @@ from rest_framework import status, generics # type: ignore
 from rest_framework.views import APIView # type: ignore
 from rest_framework.exceptions import ValidationError # type: ignore
 from finance.models import Category, Transaction # type: ignore
+from finance.pagination import CustomPagination # type: ignore
 from .serializers import CategorySerializer, TransactionSerializer, RegisterSerializer # type: ignore
 from rest_framework.permissions import IsAuthenticated # type: ignore
 from django.db.models import Q # type: ignore

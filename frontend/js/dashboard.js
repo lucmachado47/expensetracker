@@ -33,11 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .addEventListener('change', refreshDashboard)
 
     document
-    .getElementById('selectedYear')
-    .addEventListener('change', refreshDashboard)
-    
+        .getElementById('selectedYear')
+        .addEventListener('change', refreshDashboard)
+ 
     refreshDashboard()
-    
 })
 
 /**
@@ -50,7 +49,7 @@ const loadDashboardTransactions = async () => {
     const year = getSelectedYear()
 
     const response = await apiRequest(
-        `${API_URL}/transactions/?month=${month}&year=${year}`,
+        `${API_URL}/transactions/?page_size=1000&month=${month}&year=${year}`,
         'GET'
     )
 
@@ -159,7 +158,6 @@ const refreshDashboard = async () => {
     createChart(totals)
     renderTransactionTables(transactions.results)
 }
-
 
 
 
