@@ -9,6 +9,13 @@
   align-items: start;
 }
 
+/* Without this, a grid item won't shrink below its content's intrinsic
+   width — so the wide table below would stretch the whole column (and the
+   page) instead of scrolling inside its own .table-wrapper. */
+.transactions-layout > * {
+  min-width: 0;
+}
+
 .transaction-card {
   padding: 1.75rem;
   position: sticky;

@@ -9,6 +9,12 @@
   align-items: start;
 }
 
+/* Defensive: prevents a future wide table/content from stretching the
+   whole grid column instead of scrolling inside its own container. */
+.categories-layout > * {
+  min-width: 0;
+}
+
 .category-card {
   padding: 1.75rem;
   position: sticky;
