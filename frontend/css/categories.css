@@ -1,0 +1,41 @@
+/* ==========================================================================
+   ExpenseTracker — Categories
+   ========================================================================== */
+
+.categories-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.category-card {
+  padding: 1.75rem;
+  position: sticky;
+  top: 2rem;
+}
+
+.category-card h2 { font-size: 1.15rem; }
+
+.categoryTable {
+  padding: 1.5rem;
+}
+
+.categoryTable > label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin: 0 0 0.5rem;
+}
+
+#categorySearch { margin-bottom: 1.25rem; }
+
+@media (max-width: 880px) {
+  .categories-layout {
+    grid-template-columns: 1fr;
+  }
+  .category-card {
+    position: static;
+  }
+}

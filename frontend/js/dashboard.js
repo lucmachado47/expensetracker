@@ -1,5 +1,5 @@
 /** Loads the authenticated user's filtered dashboard data, chart, and transaction tables. */
-
+  
 import {
     checkAuthentication,
     logoutApplication,
@@ -33,10 +33,14 @@ document.addEventListener('DOMContentLoaded', function() {
         .addEventListener('change', refreshDashboard)
 
     document
-        .getElementById('selectedYear')
-        .addEventListener('change', refreshDashboard)
- 
+    .getElementById('selectedYear')
+    .addEventListener('change', refreshDashboard)
+
+    // Redraw the chart when the theme toggles, so bar/tooltip colors stay correct.
+    document.addEventListener('themechange', refreshDashboard)
+
     refreshDashboard()
+    
 })
 
 /**
@@ -90,7 +94,7 @@ const renderRows = (transactions) => {
             <td>${transaction.transaction_type}</td>
             <td>${transaction.transaction_amount}</td>
             <td>${transaction.description}</td>
-            <td ${pending ? 'style="color: red"' : ''}>
+            <td>
                 ${transaction.transaction_date}
                 ${pending ? '<span class="pending-tag">Pending</span>' : ''}
             </td>
@@ -126,8 +130,6 @@ const renderTransactionTables = (transactions) => {
  * @returns {Object} Aggregated totals used by the dashboard chart.
  */
 const calculateTotals = (transactions) => {
-    const today = new Date()
-
     const totals = {
         totalIncome: 0, 
         totalExpense: 0, 
@@ -151,13 +153,39 @@ const calculateTotals = (transactions) => {
     return totals
 }
 
+/**
+ * Formats a number as a currency string (e.g. 1234.5 -> "$1,234.50").
+ *
+ * @param {number} value Raw numeric amount.
+ * @returns {string} Formatted currency string.
+ */
+const formatCurrency = (value) => {
+    return `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+}
+
+/**
+ * Renders the at-a-glance summary above the chart: total income, total
+ * expense, and the resulting net balance for the selected period.
+ *
+ * @param {Object} totals Aggregated income, expense, and investment values.
+ */
+const renderStats = (totals) => {
+    const netBalance = totals.totalIncome - totals.totalExpense
+    const balanceCard = document.getElementById('statBalanceCard')
+
+    document.getElementById('statIncome').textContent = formatCurrency(totals.totalIncome)
+    document.getElementById('statExpense').textContent = formatCurrency(totals.totalExpense)
+    document.getElementById('statBalance').textContent = formatCurrency(netBalance)
+
+    balanceCard.classList.toggle('is-positive', netBalance >= 0)
+    balanceCard.classList.toggle('is-negative', netBalance < 0)
+}
+
 /** Reloads the selected period so the chart and tables present matching data. */
 const refreshDashboard = async () => {
     const transactions = await loadDashboardTransactions()
     const totals = calculateTotals(transactions.results)
+    renderStats(totals)
     createChart(totals)
     renderTransactionTables(transactions.results)
 }
-
-
-

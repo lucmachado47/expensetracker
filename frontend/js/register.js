@@ -5,6 +5,8 @@ import {
     apiRequest,
 } from './api.js'
 
+import { showToast } from './toast.js'
+
 document.addEventListener('DOMContentLoaded', function() {
   const registerForm = document.getElementById('registerForm')
 
@@ -20,15 +22,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const response = await apiRequest(`${API_URL}/register/`, 'POST', data)
   
         if (response.ok) {
-          alert('Account created successfully!')
-          window.location.href = 'login.html'
+          showToast('Account created successfully!', 'success')
+          // Brief delay so the toast is visible before the redirect fires.
+          setTimeout(() => {
+            window.location.href = 'login.html'
+          }, 900)
         } else {
           const errorData = await response.json()
-          alert(JSON.stringify(errorData))
+          showToast(JSON.stringify(errorData), 'error')
         }
       } catch (error) {
         console.error('Error:', error)
-        alert('An error occurred. Please try again.')
+        showToast('An error occurred. Please try again.', 'error')
       }
     })
   }

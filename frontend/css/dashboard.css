@@ -1,0 +1,80 @@
+/* ==========================================================================
+   ExpenseTracker — Dashboard
+   ========================================================================== */
+
+/* --- At-a-glance summary cards --- */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-card.is-balance.is-positive .stat-value { color: var(--success); }
+.stat-card.is-balance.is-negative .stat-value { color: var(--danger); }
+
+/* --- Chart --- */
+#chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 1.75rem 1.5rem 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.my-chart {
+  width: 100% !important;
+  height: 300px !important;
+}
+
+/* --- Column emphasis specific to this page's table order:
+   Type, Amount, Description, Date --- */
+#chart-card ~ .data-table td:nth-child(1) {
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+#chart-card ~ .data-table td:nth-child(2) {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.data-table.is-income td:nth-child(2) { color: var(--success); }
+.data-table.is-expense td:nth-child(2) { color: var(--danger); }
+.data-table.is-investment td:nth-child(2) { color: var(--primary); }
+
+@media (max-width: 880px) {
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+  #chart-card { padding: 1.25rem 1rem 1rem; }
+  .my-chart { height: 240px !important; }
+}

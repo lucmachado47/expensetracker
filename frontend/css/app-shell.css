@@ -1,0 +1,120 @@
+/* ==========================================================================
+   ExpenseTracker — App Shell
+   Sidebar navigation on desktop, bottom tab bar on mobile.
+   Shared by every authenticated page (dashboard, categories, transactions).
+   ========================================================================== */
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* --- Sidebar (desktop) --- */
+.sidebar {
+  width: 232px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding: 1.75rem 1.25rem;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--primary);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.nav-link:hover {
+  background: var(--surface-2);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-link.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.nav-icon { font-size: 1.05rem; }
+
+/* --- Logout, positioned next to the theme toggle (see .icon-button in base.css) --- */
+.logout-button {
+  right: 4.3rem;
+  color: var(--danger);
+}
+
+/* --- Main content --- */
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 2rem 2.75rem 3rem;
+}
+
+.page-header { margin-bottom: 1.75rem; }
+.page-header p { margin: 0; font-size: 0.92rem; }
+
+/* --- Bottom tab bar (mobile only) --- */
+.bottom-nav { display: none; }
+
+@media (max-width: 880px) {
+  .sidebar { display: none; }
+
+  .main-content {
+    padding: 1.1rem 1rem 5.5rem;
+  }
+
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    justify-content: space-around;
+    padding: 0.55rem 0 calc(0.55rem + env(safe-area-inset-bottom));
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -6px 20px rgba(30, 41, 59, 0.08);
+  }
+
+  .bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .bottom-nav a:hover { text-decoration: none; }
+  .bottom-nav a.active { color: var(--primary); }
+  .bottom-nav .nav-icon { font-size: 1.25rem; }
+}

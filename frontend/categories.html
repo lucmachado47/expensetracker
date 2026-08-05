@@ -3,58 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categories</title>
+    <title>ExpenseTracker · Categories</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/app-shell.css">
+    <link rel="stylesheet" href="css/controls.css">
+    <link rel="stylesheet" href="css/tables.css">
     <link rel="stylesheet" href="css/categories.css">
+
+    <script>
+        // Apply the saved theme before first render to avoid a flash of the wrong theme.
+        (function () {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="transactions.html">Transactions</a>
-        </nav>
-    </header>
-    <main>
-        <div class="category-card">
-            <h1>Create Category</h1>
-            <form id="categoryForm">
-                <div class="form-group">
-                    <label for="categoryName">Category Name:</label>
-                    <input type="text" id="categoryName" name="category_name" required>
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <button id="themeToggle" class="icon-button theme-toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+    <button type="button" class="icon-button logout-button" id="logoutButton" aria-label="Log out" title="Log out">🚪</button>
+
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-brand">💰 ExpenseTracker</div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link"><span class="nav-icon">📊</span>Dashboard</a>
+                <a href="categories.html" class="nav-link active"><span class="nav-icon">🏷️</span>Categories</a>
+                <a href="transactions.html" class="nav-link"><span class="nav-icon">💳</span>Transactions</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Categories</h1>
+                <p>Organize your transactions into fixed, variable, or one-time categories.</p>
+            </div>
+
+            <div class="categories-layout">
+                <div class="category-card card">
+                    <h2>Create Category</h2>
+                    <form id="categoryForm">
+                        <div class="form-group">
+                            <label for="categoryName">Category Name:</label>
+                            <input type="text" id="categoryName" name="category_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="frequency">Frequency:</label>
+                            <select id="frequency" name="frequency" required>
+                                <option value="FIXED">Fixed</option>
+                                <option value="VARIABLE">Variable</option>
+                                <option value="ONE_TIME">One-time</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="submit-button" id="submitCategory">Create Category</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="frequency">Frequency:</label>
-                    <select id="frequency" name="frequency" required>
-                        <option value="FIXED">Fixed</option>
-                        <option value="VARIABLE">Variable</option>
-                        <option value="ONE_TIME">One-time</option>
-                    </select>
+
+                <div class="categoryTable data-table">
+                    <h2>Categories</h2>
+                    <label for="categorySearch">Search Categories:</label>
+                    <input type="text" id="categorySearch" placeholder="Enter category name...">
+                    <div class="table-wrapper is-categories">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Category Name</th>
+                                    <th>Frequency</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categoryTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="pagination">
+                        <button id="previousPage">Previous</button>
+                        <span id="pageInfo"></span>
+                        <button id="nextPage">Next</button>
+                    </div>
                 </div>
-                <button type="submit" class="submit-button" id="submitCategory">Create Category</button>
-            </form>
-        </div>
-        <div class="categoryTable">
-            <h2>Categories</h2>
-            <label for="categorySearch">Search Categories:</label>
-            <input type="text" id="categorySearch" placeholder="Enter category name...">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Category Name</th>
-                        <th>Frequency</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="categoryTableBody">
-                </tbody>
-            </table>
-        </div>
-            <div id="pagination">
-            <button id="previousPage">Previous</button>
-            <span id="pageInfo"></span>
-            <button id="nextPage">Next</button>
-        </div>
-    </main>
-    <footer></footer>
+            </div>
+        </main>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="dashboard.html"><span class="nav-icon">📊</span>Dashboard</a>
+        <a href="categories.html" class="active"><span class="nav-icon">🏷️</span>Categories</a>
+        <a href="transactions.html"><span class="nav-icon">💳</span>Transactions</a>
+    </nav>
+
+    <script src="js/theme.js"></script>
     <script type="module" src="js/categories.js"></script>
 </body>
-</html>  
+</html>

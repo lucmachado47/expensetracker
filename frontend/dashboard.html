@@ -3,90 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>ExpenseTracker · Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/app-shell.css">
+    <link rel="stylesheet" href="css/controls.css">
+    <link rel="stylesheet" href="css/tables.css">
     <link rel="stylesheet" href="css/dashboard.css">
+
+    <script>
+        // Apply the saved theme before first render to avoid a flash of the wrong theme.
+        (function () {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 </head>
-  <body>
-   <header>
-    <nav>
-        <a href="categories.html">Categories</a>
-        <a href="transactions.html">Transactions</a>
+<body>
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <button id="themeToggle" class="icon-button theme-toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+    <button type="button" class="icon-button logout-button" id="logoutButton" aria-label="Log out" title="Log out">🚪</button>
+
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-brand">💰 ExpenseTracker</div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link active"><span class="nav-icon">📊</span>Dashboard</a>
+                <a href="categories.html" class="nav-link"><span class="nav-icon">🏷️</span>Categories</a>
+                <a href="transactions.html" class="nav-link"><span class="nav-icon">💳</span>Transactions</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <p>Your income, expenses, and investments at a glance.</p>
+            </div>
+
+            <div id="periodNav">
+                <label for="selectedMonth">Month:</label>
+                <select id="selectedMonth" name="month">
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+                <label for="selectedYear">Year:</label>
+                <select id="selectedYear" name="year">
+                    <option value="">Select a year</option>
+                </select>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <span class="stat-label">Income</span>
+                    <span class="stat-value" id="statIncome">$0.00</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Expenses</span>
+                    <span class="stat-value" id="statExpense">$0.00</span>
+                </div>
+                <div class="stat-card is-balance" id="statBalanceCard">
+                    <span class="stat-label">Net Balance</span>
+                    <span class="stat-value" id="statBalance">$0.00</span>
+                </div>
+            </div>
+
+            <div id="chart-card">
+                <canvas id="myChart" class="my-chart"></canvas>
+            </div>
+
+            <div class="data-table is-income">
+                <h2>Incomes</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="incomeTransactionTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="data-table is-expense">
+                <h2>Expenses</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expenseTransactionTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="data-table is-investment">
+                <h2>Investments</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="investmentTransactionTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="active"><span class="nav-icon">📊</span>Dashboard</a>
+        <a href="categories.html"><span class="nav-icon">🏷️</span>Categories</a>
+        <a href="transactions.html"><span class="nav-icon">💳</span>Transactions</a>
     </nav>
-   </header>
-    <main>
-        <div id="periodNav">
-            <label for="month">Month:</label>
-            <select id="selectedMonth" name="month">
-                <option value="1">January</option>
-                <option value="2">February</option>
-                <option value="3">March</option>
-                <option value="4">April</option>
-                <option value="5">May</option>
-                <option value="6">June</option>
-                <option value="7">July</option>
-                <option value="8">August</option>
-                <option value="9">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option> 
-            </select>
-            <label for="year">Year:</label>
-            <select id="selectedYear" name="year">
-                <option value="">Select a year</option>
-            </select>
-        </div>
-        <div id="chart-card">
-            <canvas id="myChart" class="my-chart"></canvas>
-        </div>
-        <div class="transactionsTable">
-            <h2>Incomes</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                    </tr> 
-                </thead>
-                <tbody id="incomeTransactionTableBody">
-                </tbody>
-            </table>
-        </div>
-        <div class="transactionsTable">
-            <h2>Expenses</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                    </tr> 
-                </thead>
-                <tbody id="expenseTransactionTableBody">
-                </tbody>
-            </table>
-        </div>
-        <div class="transactionsTable">
-            <h2>Investments</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                    </tr> 
-                </thead>
-                <tbody id="investmentTransactionTableBody">
-                </tbody>
-            </table>
-        </div>
-        <button type="button" class="logout-button" id="logoutButton">Logout</button>
-    </main>
-    <footer></footer>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/theme.js"></script>
     <script type="module" src="js/dashboard.js"></script>
-  </body>
+</body>
 </html>

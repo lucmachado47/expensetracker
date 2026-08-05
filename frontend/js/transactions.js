@@ -1,7 +1,8 @@
 /** Handles authenticated transaction creation, listing, and category selection. */
-
+ 
 import {
     checkAuthentication,
+    logoutApplication,
     API_URL,
     apiRequest,
 } from './api.js'
@@ -12,8 +13,15 @@ import {
     getSelectedYear,
 } from './chart.js'
 
+import { showToast } from './toast.js'
+
 document.addEventListener('DOMContentLoaded', function() { 
     checkAuthentication()
+    
+    document
+        .getElementById('logoutButton')
+        .addEventListener('click', logoutApplication)
+
     populateYearDropdown()
     
     loadCategories()
@@ -90,7 +98,7 @@ const createTransaction = async () => {
 
                 if (response.ok) {
                     transactionForm.reset()
-                    alert(isEditing ? 'Transaction updated successfully!' : 'Transaction added successfully!')
+                    showToast(isEditing ? 'Transaction updated successfully!' : 'Transaction added successfully!', 'success')
 
                     if (isEditing) {
                         editingTransactionId = null
@@ -102,11 +110,11 @@ const createTransaction = async () => {
 
                 } else {
                     const errorData = await response.json()
-                    alert(JSON.stringify(errorData))
+                    showToast(JSON.stringify(errorData), 'error')
                 }
             } catch (error) {
                 console.error('Error:', error)
-                alert('An error occurred while submitting the transaction. Please try again.')
+                showToast('An error occurred while submitting the transaction. Please try again.', 'error')
             }
         })
     }
@@ -148,7 +156,7 @@ const loadTransactions = async () => {
         `).join('')
     } catch (error) {
         console.error('Error:', error)
-        alert('An error occurred while loading transactions. Please try again.')
+        showToast('An error occurred while loading transactions. Please try again.', 'error')
     }
 }
 
@@ -172,7 +180,7 @@ const loadCategories = async () => {
         
     } catch (error) {
         console.error('Error:', error)
-        alert('An error occurred while loading categories. Please try again.')
+        showToast('An error occurred while loading categories. Please try again.', 'error')
     }
 }
 
@@ -180,7 +188,7 @@ const editTransaction = (id) => {
     const transaction = transactions.find(transaction => transaction.id === id)
 
     if (!transaction) {
-        alert('Transaction not found.')
+        showToast('Transaction not found.', 'error')
         return
     }
 
@@ -217,11 +225,11 @@ const deleteTransaction = async (id) => {
         }
 
         await loadTransactions()
-        alert('Transaction deleted successfully!')
+        showToast('Transaction deleted successfully!', 'success')
         
     } catch (error) {
         console.error('Error:', error)
-        alert('An error occurred while deleting the transaction. Please try again.')
+        showToast('An error occurred while deleting the transaction. Please try again.', 'error')
     }
 }
 

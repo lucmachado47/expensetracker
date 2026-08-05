@@ -1,0 +1,96 @@
+/* ==========================================================================
+   ExpenseTracker — Auth (Login & Register)
+   ========================================================================== */
+
+body {
+  overflow-x: hidden;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--primary-soft) 140%);
+}
+
+/* --- Money rain: decorative, non-interactive background --- */
+.money-rain {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.money-rain .coin {
+  position: absolute;
+  top: -10%;
+  font-size: 1.6rem;
+  opacity: 0;
+  filter: blur(0.5px);
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
+  8%   { opacity: 0.45; }
+  92%  { opacity: 0.45; }
+  100% { transform: translateY(115vh) rotate(50deg); opacity: 0; }
+}
+
+/* Position, delay, and duration vary per element -> feels organic, not gridded */
+.money-rain .coin:nth-child(1)  { left: 3%;  font-size: 1.3rem; animation-duration: 14s; animation-delay: 0s;  }
+.money-rain .coin:nth-child(2)  { left: 12%; font-size: 2rem;   animation-duration: 19s; animation-delay: 2s;  }
+.money-rain .coin:nth-child(3)  { left: 20%; font-size: 1.1rem; animation-duration: 12s; animation-delay: 5s;  }
+.money-rain .coin:nth-child(4)  { left: 30%; font-size: 1.7rem; animation-duration: 17s; animation-delay: 1s;  }
+.money-rain .coin:nth-child(5)  { left: 40%; font-size: 1.2rem; animation-duration: 15s; animation-delay: 7s;  }
+.money-rain .coin:nth-child(6)  { left: 50%; font-size: 2.1rem; animation-duration: 20s; animation-delay: 3s;  }
+.money-rain .coin:nth-child(7)  { left: 58%; font-size: 1.4rem; animation-duration: 13s; animation-delay: 9s;  }
+.money-rain .coin:nth-child(8)  { left: 67%; font-size: 1.8rem; animation-duration: 18s; animation-delay: 0.5s;}
+.money-rain .coin:nth-child(9)  { left: 75%; font-size: 1.2rem; animation-duration: 16s; animation-delay: 6s;  }
+.money-rain .coin:nth-child(10) { left: 83%; font-size: 2rem;   animation-duration: 21s; animation-delay: 4s;  }
+.money-rain .coin:nth-child(11) { left: 90%; font-size: 1.3rem; animation-duration: 14s; animation-delay: 8s;  }
+.money-rain .coin:nth-child(12) { left: 96%; font-size: 1.6rem; animation-duration: 17s; animation-delay: 2.5s;}
+.money-rain .coin:nth-child(13) { left: 8%;  font-size: 1.5rem; animation-duration: 19s; animation-delay: 11s;}
+.money-rain .coin:nth-child(14) { left: 45%; font-size: 1.1rem; animation-duration: 13s; animation-delay: 12s;}
+.money-rain .coin:nth-child(15) { left: 63%; font-size: 1.7rem; animation-duration: 16s; animation-delay: 10s;}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .money-rain .coin { animation: none; opacity: 0.2; top: 20%; }
+}
+
+/* --- Auth wrapper --- */
+.auth-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  padding: 2.5rem 2.25rem;
+  text-align: center;
+  animation: rise 0.5s var(--ease);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.auth-card h1 { text-align: center; }
+
+.auth-subtitle {
+  margin-top: -0.4rem;
+  margin-bottom: 1.6rem;
+  font-size: 0.9rem;
+}
+
+.auth-footer {
+  margin: 1.4rem 0 0;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 420px) {
+  .auth-card { padding: 2rem 1.5rem; }
+}

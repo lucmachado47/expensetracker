@@ -5,6 +5,8 @@ import {
     apiRequest,
 } from './api.js'
 
+import { showToast } from './toast.js'
+
 document.addEventListener('DOMContentLoaded', function() 
 {
     const loginForm = document.getElementById('loginForm')
@@ -31,11 +33,11 @@ document.addEventListener('DOMContentLoaded', function()
                     window.location.href = 'dashboard.html'
                 } else {
                     const errorData = await response.json()
-                    alert(JSON.stringify(errorData))
+                    showToast(JSON.stringify(errorData), 'error')
                 }
             } catch (error) {
                 console.error('Error:', error)
-                alert('An error occurred. Please try again.')
+                showToast('An error occurred. Please try again.', 'error')
             }
 
         })

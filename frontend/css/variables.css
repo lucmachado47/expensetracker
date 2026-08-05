@@ -1,0 +1,89 @@
+/* ==========================================================================
+   ExpenseTracker — Design Tokens
+   Shared color/typography system used by every page.
+   Switching theme = toggling the data-theme attribute on <html>, nothing else.
+   ========================================================================== */
+
+:root {
+  /* --- Surfaces --- */
+  --bg: #F3F6FB;
+  --surface: #FFFFFF;
+  --surface-2: #EEF2FA;
+  --border: #DCE4F2;
+
+  /* --- Brand --- */
+  --primary: #3E63DD;
+  --primary-hover: #3454C4;
+  --primary-soft: #DCE8FF;
+  --accent-warm: #F5A971;
+  --accent-warm-soft: #FDE9D8;
+
+  /* --- Text --- */
+  --ink: #1E293B;
+  --ink-soft: #64748B;
+  --ink-faint: #94A3B8;
+  --on-primary: #FFFFFF;
+
+  /* --- Semantic (same meaning in both themes) --- */
+  --success: #2F9E5B;
+  --success-soft: #DFF5E7;
+  --danger: #E5484D;
+  --danger-soft: #FCE3E3;
+  --pending: #E8890C;
+  --pending-soft: #FCEACC;
+
+  /* --- Shape --- */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-full: 999px;
+
+  /* --- Shadow --- */
+  --shadow-sm: 0 1px 2px rgba(30, 41, 59, 0.06);
+  --shadow-md: 0 8px 24px rgba(62, 99, 221, 0.12);
+  --shadow-lg: 0 16px 40px rgba(30, 41, 59, 0.14);
+
+  /* --- Typography --- */
+  --font-display: "Baloo 2", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* --- Motion --- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme="dark"] {
+  --bg: #0F1729;
+  --surface: #182238;
+  --surface-2: #1F2B47;
+  --border: #2A3855;
+
+  --primary: #7B98FF;
+  --primary-hover: #93AAFF;
+  --primary-soft: #223055;
+  --accent-warm: #F5A971;
+  --accent-warm-soft: #3A2A1D;
+
+  --ink: #E7ECF7;
+  --ink-soft: #9AA7C2;
+  --ink-faint: #6B7893;
+  --on-primary: #0F1729;
+
+  --success: #4ADE80;
+  --success-soft: #163524;
+  --danger: #FB7185;
+  --danger-soft: #3A1B20;
+  --pending: #FBBF77;
+  --pending-soft: #3A2C15;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* Smooth transition when switching themes, without animating everything else */
+html {
+  transition: background-color 0.25s var(--ease);
+}
+body, .card, input, select, button {
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+}

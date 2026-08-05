@@ -1,0 +1,53 @@
+/* ==========================================================================
+   ExpenseTracker — Transactions
+   ========================================================================== */
+
+.transactions-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.transaction-card {
+  padding: 1.75rem;
+  position: sticky;
+  top: 2rem;
+}
+
+.transaction-card h2 { font-size: 1.15rem; }
+
+.transaction-card textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.transactionsTable {
+  padding: 1.5rem;
+}
+
+.transactionsTable > label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin: 0 0 0.5rem;
+}
+
+#transactionSearch { margin-bottom: 1.25rem; }
+
+/* This table has more columns than the dashboard's — allow horizontal
+   scroll on narrow screens instead of squeezing everything illegibly.
+   (.table-wrapper already has overflow-x: auto, see tables.css) */
+.table-wrapper table {
+  min-width: 640px;
+}
+
+@media (max-width: 880px) {
+  .transactions-layout {
+    grid-template-columns: 1fr;
+  }
+  .transaction-card {
+    position: static;
+  }
+}

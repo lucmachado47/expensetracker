@@ -1,0 +1,79 @@
+/* ==========================================================================
+   ExpenseTracker — Toast notifications
+   Replaces native alert()/confirm() feedback with an on-brand, non-blocking
+   notification. Container lives once per page; toasts stack inside it.
+   ========================================================================== */
+
+.toast-container {
+  position: fixed;
+  top: 4.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: min(380px, 90vw);
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.8rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--ink-faint);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  animation: toast-in 0.25s var(--ease);
+}
+
+.toast.is-leaving {
+  animation: toast-out 0.2s var(--ease) forwards;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toast-out {
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+.toast-icon {
+  font-size: 1.05rem;
+  line-height: 1.3;
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 0.87rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.toast-close {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--ink-faint);
+  cursor: pointer;
+}
+.toast-close:hover { color: var(--ink); }
+
+.toast.is-success { border-left-color: var(--success); }
+.toast.is-error    { border-left-color: var(--danger); }
+.toast.is-info     { border-left-color: var(--primary); }
+
+@media (max-width: 480px) {
+  .toast-container { top: 3.8rem; }
+}

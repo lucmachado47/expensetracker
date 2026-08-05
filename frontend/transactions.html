@@ -3,96 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transactions</title>
+    <title>ExpenseTracker · Transactions</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/app-shell.css">
+    <link rel="stylesheet" href="css/controls.css">
+    <link rel="stylesheet" href="css/tables.css">
     <link rel="stylesheet" href="css/transactions.css">
+
+    <script>
+        // Apply the saved theme before first render to avoid a flash of the wrong theme.
+        (function () {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="dashboard.html">Dashboard</a>
-            <a href="categories.html">Categories</a>
-        </nav>
-    </header>
-    <main>
-        <div id="periodNav">
-            <label for="month">Month:</label>
-            <select id="selectedMonth" name="month">
-                <option value="1">January</option>
-                <option value="2">February</option>
-                <option value="3">March</option>
-                <option value="4">April</option>
-                <option value="5">May</option>
-                <option value="6">June</option>
-                <option value="7">July</option>
-                <option value="8">August</option>
-                <option value="9">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option> 
-            </select>
-            <label for="year">Year:</label>
-            <select id="selectedYear" name="year">
-                <option value="">Select a year</option>
-            </select>
-        </div>
-        <div class="transaction-card">
-            <h1>Create Transaction</h1>
-            <form id="transactionForm">
-                <div class="form-group">
-                    <label for="transactionCategory">Category:</label>
-                    <select id="transactionCategory" name="category" required>
-                        <option value="">Select a category</option>
-                    </select>
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+    <button id="themeToggle" class="icon-button theme-toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+    <button type="button" class="icon-button logout-button" id="logoutButton" aria-label="Log out" title="Log out">🚪</button>
+
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-brand">💰 ExpenseTracker</div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-link"><span class="nav-icon">📊</span>Dashboard</a>
+                <a href="categories.html" class="nav-link"><span class="nav-icon">🏷️</span>Categories</a>
+                <a href="transactions.html" class="nav-link active"><span class="nav-icon">💳</span>Transactions</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Transactions</h1>
+                <p>Log and review every income, expense, and investment.</p>
+            </div>
+
+            <div id="periodNav">
+                <label for="selectedMonth">Month:</label>
+                <select id="selectedMonth" name="month">
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+                <label for="selectedYear">Year:</label>
+                <select id="selectedYear" name="year">
+                    <option value="">Select a year</option>
+                </select>
+            </div>
+
+            <div class="transactions-layout">
+                <div class="transaction-card card">
+                    <h2>Create Transaction</h2>
+                    <form id="transactionForm">
+                        <div class="form-group">
+                            <label for="transactionCategory">Category:</label>
+                            <select id="transactionCategory" name="category" required>
+                                <option value="">Select a category</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="transactionType">Transaction Type:</label>
+                            <select id="transactionType" name="transaction_type" required>
+                                <option value="INCOME">Income</option>
+                                <option value="EXPENSE">Expense</option>
+                                <option value="INVESTMENT">Investment</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="transactionAmount">Amount:</label>
+                            <input type="number" id="transactionAmount" name="transaction_amount" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transactionDate">Date:</label>
+                            <input type="date" id="transactionDate" name="transaction_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transactionDescription">Description:</label>
+                            <textarea id="transactionDescription" name="description" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-button" id="submitTransaction">Create Transaction</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="transactionType">Transaction Type:</label>
-                    <select id="transactionType" name="transaction_type" required>
-                        <option value="INCOME">Income</option>
-                        <option value="EXPENSE">Expense</option>
-                        <option value="INVESTMENT">Investment</option>
-                    </select>
+
+                <div class="transactionsTable data-table is-transactions">
+                    <h2>Transactions</h2>
+                    <label for="transactionSearch">Search Transactions:</label>
+                    <input type="text" id="transactionSearch" placeholder="Enter transaction description...">
+
+                    <div class="table-wrapper is-transactions">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="pagination">
+                        <button id="previousPage">Previous</button>
+                        <span id="pageInfo"></span>
+                        <button id="nextPage">Next</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="transactionAmount">Amount:</label>
-                    <input type="number" id="transactionAmount" name="transaction_amount" step="0.01" min="0" required>
-                </div>
-                <div class="form-group">
-                    <label for="transactionDate">Date:</label>
-                    <input type="date" id="transactionDate" name="transaction_date" required>
-                </div>
-                <div class="form-group">
-                    <label for="transactionDescription">Description:</label>
-                    <textarea id="transactionDescription" name="description" required></textarea>
-                </div>
-                <button type="submit" class="submit-button" id="submitTransaction">Create Transaction</button>
-            </form>
-        </div>
-        <div class="transactionsTable">
-            <h2>Transactions</h2>
-            <label for="transactionSearch">Search Transactions:</label>
-            <input type="text" id="transactionSearch" placeholder="Enter transaction description...">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="transactionTableBody">
-                </tbody>
-            </table>
-        </div>
-        <div id="pagination">
-            <button id="previousPage">Previous</button>
-            <span id="pageInfo"></span>
-            <button id="nextPage">Next</button>
-        </div>
-    </main> 
-    <footer></footer>
+            </div>
+        </main>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="dashboard.html"><span class="nav-icon">📊</span>Dashboard</a>
+        <a href="categories.html"><span class="nav-icon">🏷️</span>Categories</a>
+        <a href="transactions.html" class="active"><span class="nav-icon">💳</span>Transactions</a>
+    </nav>
+
+    <script src="js/theme.js"></script>
     <script type="module" src="js/transactions.js"></script>
 </body>
 </html>

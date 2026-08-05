@@ -1,0 +1,150 @@
+/* ==========================================================================
+   ExpenseTracker — Statement-style tables
+   Turns plain <table> markup into a bank-statement feel: no heavy grid
+   lines, soft row dividers, and a friendly empty state.
+   ========================================================================== */
+
+.data-table {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.5rem 0.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.data-table h2 {
+  font-size: 1.05rem;
+}
+
+.data-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table thead th {
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding: 0 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  background: var(--surface-2);
+}
+
+.data-table td {
+  padding: 0.85rem 0.5rem;
+  font-size: 0.9rem;
+  color: var(--ink);
+  vertical-align: middle;
+}
+
+/* --- Row actions (Edit / Delete buttons injected by JS) --- */
+.data-table td:last-child {
+  display: flex;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.data-table td:last-child button {
+  padding: 0.35rem 0.7rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+/* First action button = Edit, second = Delete (matches the JS render order) */
+.data-table td:last-child button:first-of-type:hover {
+  color: var(--primary);
+  border-color: var(--primary-soft);
+  background: var(--primary-soft);
+}
+
+.data-table td:last-child button:last-of-type:hover {
+  color: var(--danger);
+  border-color: var(--danger-soft);
+  background: var(--danger-soft);
+}
+
+/* Matches the "pending-tag" class emitted by dashboard.js for future expenses */
+.pending-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--pending);
+  background: var(--pending-soft);
+  border-radius: var(--radius-full);
+}
+
+/* --- Table wrapper: scoped container for the empty-state overlay and
+   horizontal scroll (wraps just the <table>, not the search/header above it) --- */
+.table-wrapper {
+  position: relative;
+  overflow-x: auto;
+}
+
+/* Friendly empty state, pure CSS: shows only when the tbody has no rows.
+   Positioned relative to the table wrapper, so it never overlaps the
+   search input or heading above it. Override the icon/message per page
+   with a modifier class (see .is-categories / .is-transactions below). */
+.table-wrapper:has(tbody:empty) {
+  min-height: 130px;
+}
+
+.table-wrapper:has(tbody:empty) table {
+  opacity: 0.3;
+}
+
+.table-wrapper:has(tbody:empty)::before,
+.table-wrapper:has(tbody:empty)::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  pointer-events: none;
+}
+
+.table-wrapper:has(tbody:empty)::before {
+  content: "💸";
+  top: 2rem;
+  font-size: 2.1rem;
+  opacity: 0.6;
+}
+
+.table-wrapper:has(tbody:empty)::after {
+  content: "No transactions yet";
+  top: 4.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-faint);
+}
+
+.table-wrapper.is-categories:has(tbody:empty)::before { content: "🏷️"; }
+.table-wrapper.is-categories:has(tbody:empty)::after { content: "No categories yet — create your first one."; }
+
+.table-wrapper.is-transactions:has(tbody:empty)::after { content: "No transactions yet — add your first one."; }

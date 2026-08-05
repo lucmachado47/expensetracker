@@ -2,12 +2,20 @@
 
 import {
     checkAuthentication,
+    logoutApplication,
     API_URL,
     apiRequest,
 } from './api.js'
 
+import { showToast } from './toast.js'
+
 document.addEventListener('DOMContentLoaded', function() { 
     checkAuthentication()
+
+    document
+        .getElementById('logoutButton')
+        .addEventListener('click', logoutApplication)
+        
     createCategory()
     loadCategories()
 
@@ -62,7 +70,7 @@ const createCategory = async () => {
 
                 if (response.ok) {
                     categoryForm.reset()
-                    alert(isEditing ? 'Category updated successfully!' : 'Category added successfully!')
+                    showToast(isEditing ? 'Category updated successfully!' : 'Category added successfully!', 'success')
                 
                     if (isEditing) {
                         editingCategoryId = null
@@ -74,11 +82,11 @@ const createCategory = async () => {
 
                 } else {
                     const errorData = await response.json()
-                    alert(JSON.stringify(errorData))
+                    showToast(JSON.stringify(errorData), 'error')
                 }
             } catch (error) {
                 console.error('Error:', error)
-                alert('An error occurred while submitting the category. Please try again.')
+                showToast('An error occurred while submitting the category. Please try again.', 'error')
             } 
         }   
     )}
@@ -115,7 +123,7 @@ const loadCategories = async () => {
         
     } catch (error) {
         console.error('Error:', error)
-        alert('An error occurred while loading categories. Please try again.')
+        showToast('An error occurred while loading categories. Please try again.', 'error')
     }
 }
 
@@ -123,7 +131,7 @@ const editCategory = (id) => {
     const category = categories.find(category => category.id === id)
 
     if (!category) {
-        alert('Category not found.')
+        showToast('Category not found.', 'error')
         return
     }
 
@@ -158,11 +166,11 @@ const deleteCategory = async (id) => {
         }
 
         await loadCategories()
-        alert('Category deleted successfully!')
+        showToast('Category deleted successfully!', 'success')
         
     } catch (error) {
         console.error('Error:', error)
-        alert('An error occurred while deleting the category. Please try again.')
+        showToast('An error occurred while deleting the category. Please try again.', 'error')
     }
 }
 
