@@ -1,6 +1,5 @@
 /* ==========================================================================
-   ExpenseTracker — Base
-   Reset + shared components. Page-specific stylesheets only adjust layout.
+   Base element styles and shared interface components.
    ========================================================================== */
 
 *, *::before, *::after {
@@ -42,14 +41,14 @@ a {
 }
 a:hover { text-decoration: underline; }
 
-/* Always-visible focus ring — accessibility isn't optional */
+/* Provide a consistent visible focus indicator for keyboard navigation. */
 :focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
-/* --- Generic card --- */
+/* Shared card container. */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -57,7 +56,7 @@ a:hover { text-decoration: underline; }
   box-shadow: var(--shadow-md);
 }
 
-/* --- Forms --- */
+/* Form controls. */
 .form-group {
   margin-bottom: 1.1rem;
   text-align: left;
@@ -99,7 +98,7 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 3px var(--primary-soft);
 }
 
-/* --- Buttons --- */
+/* Buttons. */
 .submit-button, .btn {
   display: inline-flex;
   align-items: center;
@@ -133,7 +132,7 @@ input:focus, select:focus, textarea:focus {
 }
 .btn-danger:hover { filter: brightness(0.95); }
 
-/* --- Floating circular icon button (theme toggle, logout, etc.) --- */
+/* Floating icon controls, including theme and logout actions. */
 .icon-button {
   position: fixed;
   top: 1.1rem;
@@ -154,7 +153,7 @@ input:focus, select:focus, textarea:focus {
 
 .theme-toggle { right: 1.1rem; }
 
-/* --- Status tags (pending, income, expense...) --- */
+/* Status tags. */
 .tag {
   display: inline-flex;
   align-items: center;

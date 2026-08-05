@@ -1,14 +1,25 @@
-/** Reads a CSS custom property from :root so the chart always matches the active theme. */
+/** Retrieves a root CSS custom property for chart theme styling. */
 const cssVar = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
 
+/**
+ * Returns the reporting month selected in the dashboard controls.
+ *
+ * @returns {number} Selected calendar month.
+ */
 export const getSelectedMonth = () => {
     return Number(document.getElementById('selectedMonth').value)
 }
 
+/**
+ * Returns the reporting year selected in the dashboard controls.
+ *
+ * @returns {number} Selected calendar year.
+ */
 export const getSelectedYear = () => {
     return Number(document.getElementById('selectedYear').value)
 }
 
+/** Populates the year selector with a five-year range around the current year. */
 export const populateYearDropdown = () => {
     const yearDropdown = document.getElementById('selectedYear')
     const currentYear = new Date().getFullYear()
@@ -23,14 +34,19 @@ export const populateYearDropdown = () => {
 
 let chart
 
-/** Builds a soft vertical gradient fill for a bar, using the given base color. */
+/** Builds a vertical gradient fill from a chart bar's base color. */
 const buildGradient = (ctx, chartArea, colorHex) => {
     const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom)
     gradient.addColorStop(0, colorHex)
-    gradient.addColorStop(1, `${colorHex}55`) // fades toward the bottom
+    gradient.addColorStop(1, `${colorHex}55`)
     return gradient
 }
 
+/**
+ * Renders the selected-period financial totals as a bar chart.
+ *
+ * @param {{totalIncome: number, totalExpense: number, totalInvestment: number}} totals Aggregated transaction totals.
+ */
 export const createChart = (totals) => {
     const canvas = document.getElementById('myChart')
     const ctx = canvas.getContext('2d')

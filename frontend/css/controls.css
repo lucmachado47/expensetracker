@@ -1,6 +1,5 @@
 /* ==========================================================================
-   ExpenseTracker — Shared controls
-   Period navigation (month/year) and pagination, reused across pages.
+   Shared reporting-period and pagination controls.
    ========================================================================== */
 
 #periodNav {
@@ -28,7 +27,7 @@
   padding: 0.45rem 0.7rem;
 }
 
-/* --- Pagination --- */
+/* Pagination controls. */
 #pagination {
   display: flex;
   align-items: center;

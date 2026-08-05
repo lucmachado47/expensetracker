@@ -50,7 +50,7 @@ let categories = []
 let editingCategoryId = null
 let currentPage = 1
 
-/** Submits category data through the shared authenticated API helper. */
+/** Connects the category form to authenticated create and update requests. */
 const createCategory = async () => {
     const categoryForm = document.getElementById('categoryForm')
     
@@ -95,7 +95,7 @@ const createCategory = async () => {
     )}
 }
  
-/** Loads and renders only the categories returned for the current user. */
+/** Loads and renders the current page of user-owned categories. */
 const loadCategories = async () => {
     const categoryTableBody = document.getElementById('categoryTableBody')
     const categorySearchInput = document.getElementById('categorySearch')
@@ -133,6 +133,11 @@ const loadCategories = async () => {
     }
 }
 
+/**
+ * Loads a rendered category into the form for editing.
+ *
+ * @param {number} id Category identifier.
+ */
 const editCategory = (id) => {
     const category = categories.find(category => category.id === id)
 
@@ -146,8 +151,16 @@ const editCategory = (id) => {
     document.getElementById('submitCategory').textContent = 'Update Category'
     document.getElementById('categoryName').value = category.category_name
     document.getElementById('frequency').value = category.frequency
+
+    document.getElementsByClassName('categories-layout')[0].scrollIntoView({ behavior: 'smooth', block: 'start'})
 }
 
+/**
+ * Confirms and deletes a category, updating the current page when needed.
+ *
+ * @param {number} id Category identifier.
+ * @returns {Promise<void>}
+ */
 const deleteCategory = async (id) => {
 
     const confirmed = await confirmDialog('Are you sure you want to delete this category?', { confirmLabel: 'Delete category' })
@@ -182,6 +195,11 @@ const deleteCategory = async (id) => {
 }
 
 const PAGE_SIZE = 10
+/**
+ * Updates pagination controls from the paginated API response.
+ *
+ * @param {{count: number, previous: string|null, next: string|null}} data Paginated response metadata.
+ */
 const updatePagination = (data) => {
     const previousButton = document.getElementById('previousPage')
     const nextButton = document.getElementById('nextPage')

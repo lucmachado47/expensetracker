@@ -1,4 +1,4 @@
-/** Renders shimmering placeholder rows into a table body while data is loading. */
+/** Renders placeholder table rows while asynchronous data is loading. */
 
 /**
  * Fills a <tbody> with skeleton rows.

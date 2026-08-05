@@ -1,7 +1,5 @@
 /* ==========================================================================
-   ExpenseTracker — Toast notifications
-   Replaces native alert()/confirm() feedback with an on-brand, non-blocking
-   notification. Container lives once per page; toasts stack inside it.
+   Non-blocking notification styles for application feedback.
    ========================================================================== */
 
 .toast-container {

@@ -1,5 +1,4 @@
-/** Promise-based confirmation dialog. Replaces confirm() with an on-brand modal.
- *  Builds and removes its own DOM — no static markup needed in any page. */
+/** Provides a reusable, promise-based confirmation dialog. */
 
 /**
  * Shows a confirmation modal and resolves once the user responds.
@@ -51,7 +50,7 @@ export const confirmDialog = (message, options = {}) => {
             resolve(result)
         }
 
-        // Trap Tab between the two buttons so focus can't escape the modal.
+        // Keep keyboard focus within the active modal dialog.
         const onKeydown = (event) => {
             if (event.key === 'Escape') {
                 close(false)

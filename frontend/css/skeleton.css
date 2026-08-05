@@ -1,6 +1,5 @@
 /* ==========================================================================
-   ExpenseTracker — Skeleton loading
-   Shimmering placeholders shown while data is being fetched.
+   Loading placeholders for asynchronously fetched content.
    ========================================================================== */
 
 @keyframes skeleton-shimmer {
@@ -15,7 +14,7 @@
   border-radius: var(--radius-sm);
 }
 
-/* --- Table rows --- */
+/* Table row placeholders. */
 .skeleton-row td {
   padding: 0.85rem 0.5rem;
 }
@@ -28,7 +27,7 @@
 
 .skeleton-bar.short { width: 55%; }
 
-/* --- Chart placeholder --- */
+/* Chart placeholder. */
 .skeleton-chart {
   display: none;
   width: 100%;
@@ -43,7 +42,7 @@
   .skeleton-chart { height: 240px; }
 }
 
-/* --- Stat values --- */
+/* Summary value placeholders. */
 .stat-value.is-loading {
   display: inline-block;
   min-width: 90px;

@@ -1,6 +1,4 @@
-// Switch and save the theme (light/dark). Included in all pages.
-// Each page <head> already applies the saved theme before the first paint.
-// (short inline script) - this file is only for toggling the theme and updating the icon.)
+/** Manages the persisted color theme and its toggle control. */
 
 const THEME_KEY = 'theme'
 
@@ -22,8 +20,7 @@ const toggleTheme = () => {
   }
 
   applyIcon()
-  // Let any page-specific script (e.g. a Chart.js instance) know the theme changed,
-  // so it can re-read CSS variables and redraw with the correct colors.
+  // Notify theme-dependent components so they can refresh their derived styles.
   document.dispatchEvent(new CustomEvent('themechange'))
 }
 

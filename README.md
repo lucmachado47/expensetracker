@@ -1,64 +1,99 @@
 # ExpenseTracker
 
-ExpenseTracker is a personal-finance web application for recording and reviewing income, expenses, and investments. It gives each user a private workspace to organize transactions into categories and view a month-by-month financial summary.
+ExpenseTracker is a full-stack personal finance application for recording, organizing, and reviewing income, expenses, and investments.
 
-The project was created as a practical learning exercise in Django, REST API design, database modeling, JWT authentication, and frontend integration.
+## Project Overview
 
-<!-- Screenshot placeholder: add a dashboard screenshot here. -->
+Managing personal finances is easier when transactions are organized, searchable, and visible in a single monthly view. ExpenseTracker provides a private workspace where each authenticated user can maintain categories, record financial activity, and review selected-period totals.
+
+The project is intended for individuals who want a focused, browser-based way to track their personal financial activity. It also demonstrates a Django REST API integrated with a vanilla JavaScript frontend and JWT-based authentication.
 
 ## Features
 
-- User registration and login.
-- JWT-protected API and user-scoped data access.
-- Categories with **Fixed**, **Variable**, and **One-time** frequencies.
-- Transactions for **Income**, **Expense**, and **Investment** types.
-- Transaction fields for category, amount, date, and description.
-- Category and transaction listing and creation screens.
-- Dashboard filtered by month and year.
-- Bar chart comparing income, expenses, and investments.
-- Visual identification of future-dated expenses as pending.
-- Automatic refresh of expired access tokens when a valid refresh token is available.
+### Authentication
 
-<!-- GIF placeholder: add a short walkthrough of registration, category creation, and transaction creation here. -->
+- User registration with username, email, password, and password confirmation.
+- JWT-based sign-in using access and refresh tokens.
+- Protected API endpoints and authenticated frontend pages.
+- Automatic access-token renewal after an unauthorized API response when a valid refresh token is available.
+- User-scoped categories and transactions.
 
-## Technology stack
+### Finance Management
+
+- Categories with fixed, variable, or one-time frequency.
+- Transactions for income, expense, and investment activity.
+- Transaction category, amount, date, and description fields.
+- Category and transaction creation, editing, and deletion.
+- Category search by name or frequency.
+- Transaction search by category, type, or description.
+- Paginated category and transaction lists.
+- Month and year filtering for transactions.
+- Dashboard totals for income, expenses, investments, and net balance.
+- Bar chart comparing selected-period income, expenses, and investments.
+- Pending labels for future-dated expenses on the dashboard.
+
+### User Experience
+
+- Responsive sidebar navigation on desktop and bottom navigation on smaller screens.
+- Light and dark theme toggle with persisted preference.
+- Skeleton rows and chart placeholders while dashboard and table data loads.
+- Toast notifications for successful actions and request errors.
+- Custom keyboard-accessible confirmation modal for deletions.
+- Contextual empty states for category and transaction tables.
+
+## Tech Stack
 
 | Area | Technologies |
 | --- | --- |
 | Backend | Python, Django, Django REST Framework |
-| Authentication | djangorestframework-simplejwt (JWT) |
+| Frontend | HTML5, CSS3, Vanilla JavaScript (ES modules) |
 | Database | SQLite |
-| Frontend | HTML5, CSS3, vanilla JavaScript (ES modules) |
+| Authentication | JSON Web Tokens via `djangorestframework-simplejwt` |
 | Charts | Chart.js |
-| Cross-origin requests | django-cors-headers |
+| Deployment-ready technologies | Django WSGI and ASGI entry points, CORS middleware |
 
-## Project structure
+## Project Structure
 
 ```text
 ExpenseTracker/
 ├── backend/
 │   └── expensetracker/
-│       ├── expensetracker/     # Django project configuration and routes
-│       ├── finance/            # Models, serializers, views, and migrations
-│       ├── api_tests.http      # Example HTTP request file
-│       └── manage.py
+│       ├── expensetracker/       # Django configuration, routing, WSGI, and ASGI entry points
+│       ├── finance/              # Models, serializers, views, pagination, and migrations
+│       ├── api_tests.http        # Example HTTP requests for the API
+│       └── manage.py             # Django management command entry point
 ├── frontend/
-│   ├── css/                    # Page styles
-│   ├── js/                     # API, auth, dashboard, category, and transaction logic
-│   └── *.html                  # Static application pages
-├── docs/
-│   └── database-model.md
-├── requirements.txt
+│   ├── css/                      # Shared, responsive, and page-specific styles
+│   ├── js/                       # API, authentication, dashboard, form, and UI helpers
+│   ├── dashboard.html            # Dashboard page
+│   ├── categories.html           # Category management page
+│   ├── transactions.html         # Transaction management page
+│   ├── login.html                # Sign-in page
+│   └── register.html             # Registration page
+├── docs/                         # Project documentation
+├── requirements.txt              # Python dependencies
 └── README.md
 ```
+
+## Screenshots
+
+<!-- Dashboard Screenshot -->
+
+<!-- Transactions Screenshot -->
+
+<!-- Categories Screenshot -->
+
+<!-- Login Screenshot -->
+
+<!-- Mobile View -->
 
 ## Installation
 
 ### Prerequisites
 
-- Python 3.12+ (Django 6.0 is used)
+- Python 3.12 or later
 - A modern web browser
-- Optionally, Node.js and npm to install the frontend's declared Chart.js dependency. The application currently loads Chart.js from a CDN at runtime.
+- A static web server for the frontend, such as VS Code Live Server
 
 ### 1. Clone the repository
 
@@ -69,133 +104,137 @@ cd ExpenseTracker
 
 ### 2. Create and activate a virtual environment
 
-**Windows (PowerShell):**
+**Windows (PowerShell)**
 
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
-**macOS/Linux:**
+**macOS/Linux**
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Install Python dependencies
+### 3. Install backend dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure the Django secret key
+### 4. Required Environment Variables
 
-The settings module imports a local file that is intentionally ignored by Git. Create `backend/expensetracker/expensetracker/secrets.py` with:
+The current project does not read environment variables. Instead, the Django settings module requires a local secrets file. Create `backend/expensetracker/expensetracker/secrets.py`:
 
 ```python
 SECRET_KEY = "replace-with-a-long-random-secret-key"
 ```
 
-For development, generate a value with:
+To generate a development key:
 
 ```bash
 python -c "import secrets; print(secrets.token_urlsafe(50))"
 ```
 
-### 5. Apply database migrations
+## Running Locally
+
+### Backend
+
+From the Django project directory, apply migrations and start the API server:
 
 ```bash
 cd backend/expensetracker
 python manage.py migrate
+python manage.py runserver
 ```
 
-### Optional: install frontend packages
+The backend runs at `http://127.0.0.1:8000`.
+
+### Create a Superuser
+
+From `backend/expensetracker`, run:
 
 ```bash
-cd ../../frontend
-npm install
+python manage.py createsuperuser
 ```
 
-## Running locally
+The Django admin is available at `http://127.0.0.1:8000/admin/`.
 
-The backend is configured to accept frontend requests from `http://127.0.0.1:5500`.
+### Frontend
 
-1. From `backend/expensetracker`, start Django:
+Serve the `frontend` directory at `http://127.0.0.1:5500`. For example, use VS Code Live Server configured to use port `5500`, then open:
 
-   ```bash
-   python manage.py runserver
-   ```
+```text
+http://127.0.0.1:5500/register.html
+```
 
-   The API is available at `http://127.0.0.1:8000`.
+The backend currently permits this frontend origin through `CORS_ALLOWED_ORIGINS`. If a different host or port is used, update `backend/expensetracker/expensetracker/settings.py` accordingly.
 
-2. Serve the `frontend` directory at port `5500`—for example, using the VS Code **Live Server** extension configured for that port—and open:
+### Running Both Servers
 
-   ```text
-   http://127.0.0.1:5500/register.html
-   ```
+Keep the Django server running in one terminal and the frontend static server running in another. Register a user, sign in, create categories, and then add transactions.
 
-3. Register an account, sign in, create categories, and add transactions.
+## Authentication
 
-> If a different frontend origin or port is used, add it to `CORS_ALLOWED_ORIGINS` in `backend/expensetracker/expensetracker/settings.py`.
+1. The login form sends credentials to `POST /api/token/`.
+2. The API returns an access token and a refresh token.
+3. The frontend stores both tokens in browser `localStorage` and attaches the access token as `Authorization: Bearer <access_token>` to API requests.
+4. If a request returns `401 Unauthorized`, the frontend posts the refresh token to `POST /api/token/refresh/`.
+5. When refresh succeeds, the frontend stores the replacement access token and retries the original request once. If it fails, the stored tokens are removed and the user is redirected to the login page.
 
-## API overview
+The backend restricts category and transaction querysets to the authenticated user. It also rejects transactions that reference a category owned by another user.
+
+## API Overview
 
 Base URL: `http://127.0.0.1:8000/api`
 
+### Authentication
+
 | Method | Endpoint | Authentication | Description |
 | --- | --- | --- | --- |
-| `POST` | `/register/` | No | Create a user with `username`, `email`, `password`, and `password2`. |
-| `POST` | `/token/` | No | Obtain JWT access and refresh tokens with username and password. |
-| `POST` | `/token/refresh/` | No | Issue a new access token from a refresh token. |
+| `POST` | `/token/` | No | Obtain access and refresh tokens with username and password. |
+| `POST` | `/token/refresh/` | No | Obtain a new access token from a refresh token. |
+
+### Users
+
+| Method | Endpoint | Authentication | Description |
+| --- | --- | --- | --- |
+| `POST` | `/register/` | No | Create a user with username, email, password, and password confirmation. |
 | `GET` | `/secret/` | Required | Return a protected sample response for the authenticated user. |
-| `GET`, `POST` | `/categories/` | Required | List the current user's categories or create a category. |
-| `GET`, `PUT`, `PATCH`, `DELETE` | `/categories/{id}/` | Required | Retrieve, update, or delete one of the current user's categories. |
-| `GET`, `POST` | `/transactions/` | Required | List the current user's transactions or create a transaction. Supports optional `month` (`1`–`12`) and `year` filters on `GET`. |
-| `GET`, `PUT`, `PATCH`, `DELETE` | `/transactions/{id}/` | Required | Retrieve, update, or delete one of the current user's transactions. |
 
-Example category payload:
+### Categories
 
-```json
-{
-  "category_name": "Groceries",
-  "frequency": "VARIABLE"
-}
-```
+| Method | Endpoint | Authentication | Description |
+| --- | --- | --- | --- |
+| `GET`, `POST` | `/categories/` | Required | List or create the current user's categories. Supports `page`, `page_size`, and `search` query parameters. |
+| `GET`, `PUT`, `PATCH`, `DELETE` | `/categories/{id}/` | Required | Retrieve, update, or delete a current-user category. |
 
-Example transaction payload:
+### Transactions
 
-```json
-{
-  "category": 1,
-  "transaction_type": "EXPENSE",
-  "transaction_amount": "125.50",
-  "transaction_date": "2026-07-26",
-  "description": "Weekly groceries"
-}
-```
+| Method | Endpoint | Authentication | Description |
+| --- | --- | --- | --- |
+| `GET`, `POST` | `/transactions/` | Required | List or create the current user's transactions. Supports `page`, `page_size`, `month`, `year`, and `search` query parameters. |
+| `GET`, `PUT`, `PATCH`, `DELETE` | `/transactions/{id}/` | Required | Retrieve, update, or delete a current-user transaction. |
 
-## Authentication (JWT)
+### Dashboard
 
-Protected endpoints require an access token in the `Authorization` header:
+The dashboard uses the transactions collection endpoint with the selected `month` and `year`, requesting up to 1,000 records. It calculates totals and renders the chart in the frontend; there is no separate dashboard API endpoint.
 
-```http
-Authorization: Bearer <access_token>
-```
+## Design Highlights
 
-The frontend stores the access and refresh tokens in browser `localStorage`. For authenticated requests, it sends the access token automatically. On a `401 Unauthorized` response, it requests a new access token from `/api/token/refresh/`, retries the request once, and redirects to the login page if renewal fails.
-
-The backend scopes category and transaction queries to the authenticated user. It also prevents a transaction from being assigned to another user's category.
-
-## Future improvements
-
-- Add edit and delete controls to the frontend for categories and transactions.
-- Add automated backend and frontend test coverage.
-- Add pagination, sorting, and richer transaction filtering.
-- Add expense budgets and spending insights.
-- Improve error feedback and accessible UI states.
-- Add production deployment settings, environment-based configuration, and security hardening.
+- Responsive application shell that changes from a desktop sidebar to mobile bottom navigation.
+- Theme-aware interface with persisted light and dark preferences.
+- Loading skeletons to avoid empty table and chart areas during requests.
+- Non-blocking toast feedback for success and error states.
+- Custom confirmation modal that supports keyboard dismissal and focus containment.
+- Empty-state messaging and paginated data tables for easier browsing.
 
 ## License
 
-No license has been specified for this repository. Add a license file before distributing or reusing the project.
+MIT License.
+
+## Author
+
+Author information: `Lucas Machado de Almeida`

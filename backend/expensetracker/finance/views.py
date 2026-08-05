@@ -98,7 +98,7 @@ class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
         
 
         if month:
-            # Validate the calendar month before applying the dashboard filter.
+            # Validate the calendar month before applying the date filter.
             try:
                 month = int(month)
             except ValueError:
@@ -131,7 +131,7 @@ class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
         return queryset 
 
     def perform_create(self, serializer):
-        """Assign transaction ownership from the JWT-authenticated request."""
+        """Assign transaction ownership from the authenticated request."""
 
         serializer.save(user=self.request.user)
 

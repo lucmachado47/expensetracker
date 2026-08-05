@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ExpenseTracker — Auth (Login & Register)
+   Authentication page layout and decorative background.
    ========================================================================== */
 
 body {
@@ -7,7 +7,7 @@ body {
   background: linear-gradient(180deg, var(--bg) 0%, var(--primary-soft) 140%);
 }
 
-/* --- Money rain: decorative, non-interactive background --- */
+/* Decorative background that does not receive pointer events. */
 .money-rain {
   position: fixed;
   inset: 0;
@@ -32,7 +32,7 @@ body {
   100% { transform: translateY(115vh) rotate(50deg); opacity: 0; }
 }
 
-/* Position, delay, and duration vary per element -> feels organic, not gridded */
+/* Vary each animation to avoid a synchronized visual pattern. */
 .money-rain .coin:nth-child(1)  { left: 3%;  font-size: 1.3rem; animation-duration: 14s; animation-delay: 0s;  }
 .money-rain .coin:nth-child(2)  { left: 12%; font-size: 2rem;   animation-duration: 19s; animation-delay: 2s;  }
 .money-rain .coin:nth-child(3)  { left: 20%; font-size: 1.1rem; animation-duration: 12s; animation-delay: 5s;  }
@@ -49,12 +49,12 @@ body {
 .money-rain .coin:nth-child(14) { left: 45%; font-size: 1.1rem; animation-duration: 13s; animation-delay: 12s;}
 .money-rain .coin:nth-child(15) { left: 63%; font-size: 1.7rem; animation-duration: 16s; animation-delay: 10s;}
 
-/* Respect users who prefer reduced motion */
+/* Reduce decorative motion when the user requests it. */
 @media (prefers-reduced-motion: reduce) {
   .money-rain .coin { animation: none; opacity: 0.2; top: 20%; }
 }
 
-/* --- Auth wrapper --- */
+/* Authentication form layout. */
 .auth-wrapper {
   position: relative;
   z-index: 1;

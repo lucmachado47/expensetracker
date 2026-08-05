@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ExpenseTracker — Transactions
+   Transactions page layout.
    ========================================================================== */
 
 .transactions-layout {
@@ -9,9 +9,7 @@
   align-items: start;
 }
 
-/* Without this, a grid item won't shrink below its content's intrinsic
-   width — so the wide table below would stretch the whole column (and the
-   page) instead of scrolling inside its own .table-wrapper. */
+/* Keep wide table content within its scrollable grid column. */
 .transactions-layout > * {
   min-width: 0;
 }
@@ -43,9 +41,7 @@
 
 #transactionSearch { margin-bottom: 1.25rem; }
 
-/* This table has more columns than the dashboard's — allow horizontal
-   scroll on narrow screens instead of squeezing everything illegibly.
-   (.table-wrapper already has overflow-x: auto, see tables.css) */
+/* Preserve readable transaction columns by allowing horizontal scrolling. */
 .table-wrapper table {
   min-width: 640px;
 }

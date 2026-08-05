@@ -10,6 +10,8 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
     def __str__(self):
+        """Return the associated username for administrative displays."""
+
         return str(self.user)
 
 class Frequency(models.TextChoices):
@@ -37,6 +39,8 @@ class Category(models.Model):
         ]
 
     def __str__(self):
+        """Return the category label for administrative displays."""
+
         return self.category_name
 
 class TransactionType(models.TextChoices):
@@ -58,5 +62,7 @@ class Transaction(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
+        """Return a concise transaction summary for administrative displays."""
+
         return f"{self.transaction_type} - {self.transaction_amount} on {self.transaction_date}"
 

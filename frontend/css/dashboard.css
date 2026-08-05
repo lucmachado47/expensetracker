@@ -1,8 +1,8 @@
 /* ==========================================================================
-   ExpenseTracker — Dashboard
+   Dashboard-specific layout and financial summary styles.
    ========================================================================== */
 
-/* --- At-a-glance summary cards --- */
+/* Financial summary cards. */
 .stats-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -40,7 +40,7 @@
 .stat-card.is-balance.is-positive .stat-value { color: var(--success); }
 .stat-card.is-balance.is-negative .stat-value { color: var(--danger); }
 
-/* --- Chart --- */
+/* Chart container. */
 #chart-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -55,8 +55,7 @@
   height: 300px !important;
 }
 
-/* --- Column emphasis specific to this page's table order:
-   Type, Amount, Description, Date --- */
+/* Emphasize transaction type and amount columns in dashboard tables. */
 #chart-card ~ .data-table td:nth-child(1) {
   font-weight: 600;
   color: var(--ink-soft);

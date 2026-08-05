@@ -1,7 +1,5 @@
 /* ==========================================================================
-   ExpenseTracker — Confirmation modal
-   Replaces native confirm(). Built and torn down dynamically by modal.js,
-   so no static markup is needed in any page.
+   Dynamically rendered confirmation dialog styles.
    ========================================================================== */
 
 .modal-overlay {

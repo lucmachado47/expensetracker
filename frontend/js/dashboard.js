@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .getElementById('selectedYear')
     .addEventListener('change', refreshDashboard)
 
-    // Redraw the chart when the theme toggles, so bar/tooltip colors stay correct.
+    // Rebuild the chart so it reads the color variables for the newly selected theme.
     document.addEventListener('themechange', refreshDashboard)
 
     refreshDashboard()
@@ -70,7 +70,7 @@ const loadDashboardTransactions = async () => {
 } 
 
 /**
- * Identifies expenses dated after today so planned payments are visible separately.
+ * Identifies expenses dated after the current day for separate pending treatment.
  *
  * @param {Object} transaction Transaction returned by the API.
  * @returns {boolean} Whether the expense is scheduled in the future.
@@ -106,7 +106,7 @@ const renderRows = (transactions) => {
 }
 
 /**
- * Separates transactions by type so each dashboard table shows one financial flow.
+ * Groups transactions by type for the dashboard's separate financial-flow tables.
  *
  * @param {Array} transactions Transactions returned for the selected period.
  */
@@ -167,8 +167,7 @@ const formatCurrency = (value) => {
 }
 
 /**
- * Renders the at-a-glance summary above the chart: total income, total
- * expense, and the resulting net balance for the selected period.
+ * Renders selected-period income, expense, and net-balance summary values.
  *
  * @param {Object} totals Aggregated income, expense, and investment values.
  */
@@ -203,7 +202,7 @@ const setDashboardLoading = (isLoading) => {
     }
 }
 
-/** Reloads the selected period so the chart and tables present matching data. */
+/** Reloads the selected period so every dashboard section uses the same data. */
 const refreshDashboard = async () => {
     setDashboardLoading(true)
 

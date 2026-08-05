@@ -1,5 +1,4 @@
-/** Lightweight toast notifications. Replaces alert() across the app.
- *  Requires a <div id="toastContainer" class="toast-container"></div> in the page. */
+/** Provides lightweight, dismissible notifications for application feedback. */
 
 const CONTAINER_ID = 'toastContainer'
 const AUTO_DISMISS_MS = 4500
@@ -20,7 +19,7 @@ export const showToast = (message, type = 'info') => {
     const container = document.getElementById(CONTAINER_ID)
 
     if (!container) {
-        // Fail safe: never leave the user without feedback if the container is missing.
+        // Preserve user feedback when a page omits the toast container.
         console.warn('Toast container not found on this page.')
         alert(message)
         return

@@ -77,7 +77,7 @@ let transactions = []
 let editingTransactionId = null
 let currentPage = 1
 
-/** Submits a transaction through the shared helper so its JWT is attached. */
+/** Connects the transaction form to authenticated create and update requests. */
 const createTransaction = async () => {
     const transactionForm = document.getElementById('transactionForm')
 
@@ -122,7 +122,7 @@ const createTransaction = async () => {
     }
 }
 
-/** Loads and renders the current user's transactions in the activity table. */
+/** Loads and renders the selected page of filtered user transactions. */
 const loadTransactions = async () => {
     const transactionTableBody = document.getElementById('transactionTableBody')
     const searchInput = document.getElementById('transactionSearch')
@@ -165,7 +165,7 @@ const loadTransactions = async () => {
     }
 }
 
-/** Loads user-owned categories so transactions can reference a valid category. */
+/** Loads available user-owned categories into the transaction form selector. */
 const loadCategories = async () => {
     const transactionCategory = document.getElementById('transactionCategory')
 
@@ -189,6 +189,11 @@ const loadCategories = async () => {
     }
 }
 
+/**
+ * Loads a rendered transaction into the form for editing.
+ *
+ * @param {number} id Transaction identifier.
+ */
 const editTransaction = (id) => {
     const transaction = transactions.find(transaction => transaction.id === id)
 
@@ -205,8 +210,16 @@ const editTransaction = (id) => {
     document.getElementById('transactionAmount').value = transaction.transaction_amount
     document.getElementById('transactionDate').value = transaction.transaction_date
     document.getElementById('transactionDescription').value = transaction.description
+
+    document.getElementsByClassName('transactions-layout')[0].scrollIntoView({ behavior: 'smooth', block: 'start'})
 }
 	
+/**
+ * Confirms and deletes a transaction, updating the current page when needed.
+ *
+ * @param {number} id Transaction identifier.
+ * @returns {Promise<void>}
+ */
 const deleteTransaction = async (id) => {
     const confirmed = await confirmDialog('Are you sure you want to delete this transaction?', { confirmLabel: 'Delete transaction' })
     if (!confirmed) {
@@ -240,6 +253,11 @@ const deleteTransaction = async (id) => {
 }
 
 const PAGE_SIZE = 10
+/**
+ * Updates pagination controls from the paginated API response.
+ *
+ * @param {{count: number, previous: string|null, next: string|null}} data Paginated response metadata.
+ */
 const updatePagination = (data) => {
     const previousButton = document.getElementById('previousPage')
     const nextButton = document.getElementById('nextPage')

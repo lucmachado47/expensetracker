@@ -1,7 +1,5 @@
 /* ==========================================================================
-   ExpenseTracker — App Shell
-   Sidebar navigation on desktop, bottom tab bar on mobile.
-   Shared by every authenticated page (dashboard, categories, transactions).
+   Shared responsive layout for authenticated application pages.
    ========================================================================== */
 
 .app-shell {
@@ -9,7 +7,7 @@
   min-height: 100vh;
 }
 
-/* --- Sidebar (desktop) --- */
+/* Desktop navigation. */
 .sidebar {
   width: 232px;
   flex-shrink: 0;
@@ -64,13 +62,13 @@
 
 .nav-icon { font-size: 1.05rem; }
 
-/* --- Logout, positioned next to the theme toggle (see .icon-button in base.css) --- */
+/* Align the logout control beside the theme toggle. */
 .logout-button {
   right: 4.3rem;
   color: var(--danger);
 }
 
-/* --- Main content --- */
+/* Page content area. */
 .main-content {
   flex: 1;
   min-width: 0;
@@ -80,7 +78,7 @@
 .page-header { margin-bottom: 1.75rem; }
 .page-header p { margin: 0; font-size: 0.92rem; }
 
-/* --- Bottom tab bar (mobile only) --- */
+/* Mobile navigation. */
 .bottom-nav { display: none; }
 
 @media (max-width: 880px) {

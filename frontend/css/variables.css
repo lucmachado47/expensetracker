@@ -1,30 +1,28 @@
 /* ==========================================================================
-   ExpenseTracker — Design Tokens
-   Shared color/typography system used by every page.
-   Switching theme = toggling the data-theme attribute on <html>, nothing else.
+   Shared design tokens for all application pages and themes.
    ========================================================================== */
 
 :root {
-  /* --- Surfaces --- */
+  /* Surface colors. */
   --bg: #F3F6FB;
   --surface: #FFFFFF;
   --surface-2: #EEF2FA;
   --border: #DCE4F2;
 
-  /* --- Brand --- */
+  /* Brand colors. */
   --primary: #3E63DD;
   --primary-hover: #3454C4;
   --primary-soft: #DCE8FF;
   --accent-warm: #F5A971;
   --accent-warm-soft: #FDE9D8;
 
-  /* --- Text --- */
+  /* Text colors. */
   --ink: #1E293B;
   --ink-soft: #64748B;
   --ink-faint: #94A3B8;
   --on-primary: #FFFFFF;
 
-  /* --- Semantic (same meaning in both themes) --- */
+  /* Semantic status colors. */
   --success: #2F9E5B;
   --success-soft: #DFF5E7;
   --danger: #E5484D;
@@ -32,22 +30,22 @@
   --pending: #E8890C;
   --pending-soft: #FCEACC;
 
-  /* --- Shape --- */
+  /* Shape tokens. */
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 22px;
   --radius-full: 999px;
 
-  /* --- Shadow --- */
+  /* Elevation tokens. */
   --shadow-sm: 0 1px 2px rgba(30, 41, 59, 0.06);
   --shadow-md: 0 8px 24px rgba(62, 99, 221, 0.12);
   --shadow-lg: 0 16px 40px rgba(30, 41, 59, 0.14);
 
-  /* --- Typography --- */
+  /* Typography tokens. */
   --font-display: "Baloo 2", sans-serif;
   --font-body: "Inter", sans-serif;
 
-  /* --- Motion --- */
+  /* Motion tokens. */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -80,7 +78,7 @@
   --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
 }
 
-/* Smooth transition when switching themes, without animating everything else */
+/* Limit theme transitions to affected visual properties. */
 html {
   transition: background-color 0.25s var(--ease);
 }

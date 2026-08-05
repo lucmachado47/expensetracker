@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ExpenseTracker — Categories
+   Categories page layout.
    ========================================================================== */
 
 .categories-layout {
@@ -9,8 +9,7 @@
   align-items: start;
 }
 
-/* Defensive: prevents a future wide table/content from stretching the
-   whole grid column instead of scrolling inside its own container. */
+/* Allow wide content to scroll within its container instead of widening the grid. */
 .categories-layout > * {
   min-width: 0;
 }

@@ -1,4 +1,4 @@
-/** Provides reusable authentication and JSON request helpers for the frontend API. */
+/** Provides shared authentication and JSON request helpers for the API. */
 
 /**
  * Retrieves the JWT used to authorize protected API requests.
@@ -14,7 +14,7 @@ export const getAccessToken = () => localStorage.getItem('access_token')
  */
 export const getRefreshToken = () => localStorage.getItem('refresh_token')
 
-/** Redirects visitors without an access token before protected pages load. */
+/** Redirects unauthenticated visitors before protected page content is used. */
 export const checkAuthentication = () => {
     const token = getAccessToken()
 
@@ -54,7 +54,7 @@ export const apiRequest = async (endpoint, method, data = null) => {
     let response = await fetch(endpoint, options)
 
     if (response.status === 401) {
-        // Access tokens can expire during a session; renew before abandoning the request.
+        // Retry once with a refreshed access token when the original credential has expired.
         const newAccessToken = await refreshAccessToken()
 
         if (!newAccessToken) {
@@ -99,7 +99,7 @@ export const refreshAccessToken = async () => {
     return data.access
 }
 
-/** Clears local JWTs so a later user cannot access the previous session. */
+/** Clears locally stored JWTs and returns the browser to the sign-in page. */
 export const logoutApplication = () => {
     localStorage.removeItem('access_token')
     localStorage.removeItem('refresh_token')

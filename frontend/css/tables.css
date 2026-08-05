@@ -1,7 +1,5 @@
 /* ==========================================================================
-   ExpenseTracker — Statement-style tables
-   Turns plain <table> markup into a bank-statement feel: no heavy grid
-   lines, soft row dividers, and a friendly empty state.
+   Shared financial table styles, including actions and empty states.
    ========================================================================== */
 
 .data-table {
@@ -53,7 +51,7 @@
   vertical-align: middle;
 }
 
-/* --- Row actions (Edit / Delete buttons injected by JS) --- */
+/* Action buttons injected by the category and transaction views. */
 .data-table td:last-child {
   display: flex;
   gap: 0.4rem;
@@ -72,7 +70,7 @@
   cursor: pointer;
 }
 
-/* First action button = Edit, second = Delete (matches the JS render order) */
+/* Style actions according to the order rendered by the view scripts. */
 .data-table td:last-child button:first-of-type:hover {
   color: var(--primary);
   border-color: var(--primary-soft);
@@ -85,7 +83,7 @@
   background: var(--danger-soft);
 }
 
-/* Matches the "pending-tag" class emitted by dashboard.js for future expenses */
+/* Mark future expenses identified by the dashboard script. */
 .pending-tag {
   display: inline-flex;
   align-items: center;
@@ -101,17 +99,13 @@
   border-radius: var(--radius-full);
 }
 
-/* --- Table wrapper: scoped container for the empty-state overlay and
-   horizontal scroll (wraps just the <table>, not the search/header above it) --- */
+/* Scope horizontal scrolling and empty-state overlays to the table. */
 .table-wrapper {
   position: relative;
   overflow-x: auto;
 }
 
-/* Friendly empty state, pure CSS: shows only when the tbody has no rows.
-   Positioned relative to the table wrapper, so it never overlaps the
-   search input or heading above it. Override the icon/message per page
-   with a modifier class (see .is-categories / .is-transactions below). */
+/* Show a contextual empty state only when the table body has no rows. */
 .table-wrapper:has(tbody:empty) {
   min-height: 130px;
 }
