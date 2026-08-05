@@ -7,8 +7,10 @@ import {
     apiRequest,
 } from './api.js'
 
+
 import { showToast } from './toast.js'
 import { renderSkeletonRows } from './skeleton.js'
+import { confirmDialog } from './modal.js'
 
 document.addEventListener('DOMContentLoaded', function() { 
     checkAuthentication()
@@ -16,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document
         .getElementById('logoutButton')
         .addEventListener('click', logoutApplication)
-
+        
     createCategory()
     loadCategories()
 
@@ -148,7 +150,8 @@ const editCategory = (id) => {
 
 const deleteCategory = async (id) => {
 
-    if (!confirm('Are you sure you want to delete this category?')) {
+    const confirmed = await confirmDialog('Are you sure you want to delete this category?', { confirmLabel: 'Delete category' })
+    if (!confirmed) {
         return
     }
 

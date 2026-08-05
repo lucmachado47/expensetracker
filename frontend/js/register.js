@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
         if (response.ok) {
           showToast('Account created successfully!', 'success')
+          window.location.href = 'login.html'
           // Brief delay so the toast is visible before the redirect fires.
           setTimeout(() => {
             window.location.href = 'login.html'

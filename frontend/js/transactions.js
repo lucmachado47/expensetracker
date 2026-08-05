@@ -15,6 +15,7 @@ import {
 
 import { showToast } from './toast.js'
 import { renderSkeletonRows } from './skeleton.js'
+import { confirmDialog } from './modal.js'
 
 document.addEventListener('DOMContentLoaded', function() { 
     checkAuthentication()
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document
         .getElementById('logoutButton')
         .addEventListener('click', logoutApplication)
-    
+        
     populateYearDropdown()
     
     loadCategories()
@@ -207,7 +208,8 @@ const editTransaction = (id) => {
 }
 	
 const deleteTransaction = async (id) => {
-    if (!confirm('Are you sure you want to delete this transaction?')) {
+    const confirmed = await confirmDialog('Are you sure you want to delete this transaction?', { confirmLabel: 'Delete transaction' })
+    if (!confirmed) {
         return
     }
     
