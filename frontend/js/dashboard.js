@@ -1,5 +1,5 @@
 /** Loads the authenticated user's filtered dashboard data, chart, and transaction tables. */
-  
+
 import {
     checkAuthentication,
     logoutApplication,
@@ -15,6 +15,9 @@ import {
     getSelectedYear,
 
 } from './chart.js'
+
+import { renderSkeletonRows } from './skeleton.js'
+import { showToast } from './toast.js'
 
 document.addEventListener('DOMContentLoaded', function() { 
     checkAuthentication()
@@ -181,11 +184,39 @@ const renderStats = (totals) => {
     balanceCard.classList.toggle('is-negative', netBalance < 0)
 }
 
+/**
+ * Toggles the loading state across the chart, stat cards, and transaction tables.
+ *
+ * @param {boolean} isLoading Whether the dashboard is currently fetching data.
+ */
+const setDashboardLoading = (isLoading) => {
+    document.getElementById('chart-card').classList.toggle('is-loading', isLoading)
+
+    for (const id of ['statIncome', 'statExpense', 'statBalance']) {
+        document.getElementById(id).classList.toggle('is-loading', isLoading)
+    }
+
+    if (isLoading) {
+        renderSkeletonRows(document.getElementById('incomeTransactionTableBody'), 4)
+        renderSkeletonRows(document.getElementById('expenseTransactionTableBody'), 4)
+        renderSkeletonRows(document.getElementById('investmentTransactionTableBody'), 4)
+    }
+}
+
 /** Reloads the selected period so the chart and tables present matching data. */
 const refreshDashboard = async () => {
-    const transactions = await loadDashboardTransactions()
-    const totals = calculateTotals(transactions.results)
-    renderStats(totals)
-    createChart(totals)
-    renderTransactionTables(transactions.results)
+    setDashboardLoading(true)
+
+    try {
+        const transactions = await loadDashboardTransactions()
+        const totals = calculateTotals(transactions.results)
+        renderStats(totals)
+        createChart(totals)
+        renderTransactionTables(transactions.results)
+    } catch (error) {
+        console.error('Error:', error)
+        showToast('Failed to load dashboard data. Please try again.', 'error')
+    } finally {
+        setDashboardLoading(false)
+    }
 }

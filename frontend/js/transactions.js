@@ -1,5 +1,5 @@
 /** Handles authenticated transaction creation, listing, and category selection. */
- 
+
 import {
     checkAuthentication,
     logoutApplication,
@@ -14,14 +14,15 @@ import {
 } from './chart.js'
 
 import { showToast } from './toast.js'
+import { renderSkeletonRows } from './skeleton.js'
 
 document.addEventListener('DOMContentLoaded', function() { 
     checkAuthentication()
-    
+
     document
         .getElementById('logoutButton')
         .addEventListener('click', logoutApplication)
-
+    
     populateYearDropdown()
     
     loadCategories()
@@ -130,6 +131,8 @@ const loadTransactions = async () => {
         const month = getSelectedMonth()
         const year = getSelectedYear()
 
+        renderSkeletonRows(transactionTableBody, 6)
+
         const response = await apiRequest(`${API_URL}/transactions/?page=${currentPage}&month=${month}&year=${year}&search=${searchTerm}`, 'GET')
 
         if (!response.ok) {
@@ -157,6 +160,7 @@ const loadTransactions = async () => {
     } catch (error) {
         console.error('Error:', error)
         showToast('An error occurred while loading transactions. Please try again.', 'error')
+        transactionTableBody.innerHTML = ''
     }
 }
 

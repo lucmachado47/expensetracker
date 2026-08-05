@@ -8,6 +8,7 @@ import {
 } from './api.js'
 
 import { showToast } from './toast.js'
+import { renderSkeletonRows } from './skeleton.js'
 
 document.addEventListener('DOMContentLoaded', function() { 
     checkAuthentication()
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document
         .getElementById('logoutButton')
         .addEventListener('click', logoutApplication)
-        
+
     createCategory()
     loadCategories()
 
@@ -100,6 +101,8 @@ const loadCategories = async () => {
     try {
         const searchTerm = categorySearchInput.value.toLowerCase()
 
+        renderSkeletonRows(categoryTableBody, 3)
+
         const response = await apiRequest(`${API_URL}/categories/?page=${currentPage}&search=${searchTerm}`, 'GET')
         
         if (!response.ok) {
@@ -124,6 +127,7 @@ const loadCategories = async () => {
     } catch (error) {
         console.error('Error:', error)
         showToast('An error occurred while loading categories. Please try again.', 'error')
+        categoryTableBody.innerHTML = ''
     }
 }
 

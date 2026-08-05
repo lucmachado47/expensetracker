@@ -1,0 +1,52 @@
+/* ==========================================================================
+   ExpenseTracker — Skeleton loading
+   Shimmering placeholders shown while data is being fetched.
+   ========================================================================== */
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 37%, var(--surface-2) 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* --- Table rows --- */
+.skeleton-row td {
+  padding: 0.85rem 0.5rem;
+}
+
+.skeleton-bar {
+  display: block;
+  height: 13px;
+  width: 100%;
+}
+
+.skeleton-bar.short { width: 55%; }
+
+/* --- Chart placeholder --- */
+.skeleton-chart {
+  display: none;
+  width: 100%;
+  height: 300px;
+  border-radius: var(--radius-md);
+}
+
+#chart-card.is-loading .my-chart { display: none; }
+#chart-card.is-loading .skeleton-chart { display: block; }
+
+@media (max-width: 880px) {
+  .skeleton-chart { height: 240px; }
+}
+
+/* --- Stat values --- */
+.stat-value.is-loading {
+  display: inline-block;
+  min-width: 90px;
+  height: 1.6rem;
+  color: transparent;
+}
