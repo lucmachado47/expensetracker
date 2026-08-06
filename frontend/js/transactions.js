@@ -170,7 +170,7 @@ const loadCategories = async () => {
     const transactionCategory = document.getElementById('transactionCategory')
 
     try {
-        const response = await apiRequest(`${API_URL}/categories/`, 'GET')
+        const response = await apiRequest(`${API_URL}/categories/?page_size=1000`, 'GET')
         
         if (!response.ok) {
             throw new Error('Failed to load categories')

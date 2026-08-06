@@ -22,10 +22,11 @@ document.addEventListener('DOMContentLoaded', function() {
   
         if (response.ok) {
           showToast('Account created successfully!', 'success')
-          window.location.href = 'login.html'
+          
           setTimeout(() => {
             window.location.href = 'login.html'
-          }, 900)
+          }, 1500)
+            
         } else {
           const errorData = await response.json()
           showToast(JSON.stringify(errorData), 'error')

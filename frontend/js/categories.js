@@ -163,7 +163,7 @@ const editCategory = (id) => {
  */
 const deleteCategory = async (id) => {
 
-    const confirmed = await confirmDialog('Are you sure you want to delete this category?', { confirmLabel: 'Delete category' })
+    const confirmed = await confirmDialog('Are you sure you want to delete this category? All transactions assigned to this category will also be permanently deleted.', { confirmLabel: 'Delete category' })
     if (!confirmed) {
         return
     }

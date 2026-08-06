@@ -5,7 +5,6 @@ from rest_framework import status, generics # type: ignore
 from rest_framework.views import APIView # type: ignore
 from rest_framework.exceptions import ValidationError # type: ignore
 from finance.models import Category, Transaction # type: ignore
-from finance.pagination import CustomPagination # type: ignore
 from .serializers import CategorySerializer, TransactionSerializer, RegisterSerializer # type: ignore
 from rest_framework.permissions import IsAuthenticated # type: ignore
 from django.db.models import Q # type: ignore
@@ -49,7 +48,7 @@ class CategoryListCreateView(generics.ListCreateAPIView): # type: ignore
     def get_queryset(self):
         """Limit results to the current user so categories remain private."""
 
-        queryset = Category.objects.filter(user=self.request.user)
+        queryset = Category.objects.filter(user=self.request.user).order_by('category_name')
 
         search = self.request.query_params.get('search')
 
@@ -90,7 +89,7 @@ class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
     def get_queryset(self):
         """Return private transactions, optionally narrowed to a reporting period."""
 
-        queryset = Transaction.objects.filter(user=self.request.user)
+        queryset = Transaction.objects.filter(user=self.request.user).order_by('-transaction_date', '-id')
 
         month = self.request.query_params.get('month')
         year = self.request.query_params.get('year')
