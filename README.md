@@ -77,15 +77,58 @@ ExpenseTracker/
 
 ## Screenshots
 
-<!-- Dashboard Screenshot -->
+### Dashboard
 
-<!-- Transactions Screenshot -->
+<p align="center">
+  <img src="docs/screenshots/dashboard-dark.png" alt="Dashboard - Dark Mode" width="48%">
+  <img src="docs/screenshots/dashboard-light.png" alt="Dashboard - Light Mode" width="48%">
+</p>
 
-<!-- Categories Screenshot -->
+---
 
-<!-- Login Screenshot -->
+### Transactions
 
-<!-- Mobile View -->
+<p align="center">
+  <img src="docs/screenshots/transactions-dark.png" alt="Transactions - Dark Mode" width="48%">
+  <img src="docs/screenshots/transactions-light.png" alt="Transactions - Light Mode" width="48%">
+</p>
+
+---
+
+### Categories
+
+<p align="center">
+  <img src="docs/screenshots/categories-dark.png" alt="Categories - Dark Mode" width="48%">
+  <img src="docs/screenshots/categories-light.png" alt="Categories - Light Mode" width="48%">
+</p>
+
+---
+
+### Login
+
+<p align="center">
+  <img src="docs/screenshots/login-dark.png" alt="Login - Dark Mode" width="48%">
+  <img src="docs/screenshots/login-light.png" alt="Login - Light Mode" width="48%">
+</p>
+
+---
+
+### Register
+
+<p align="center">
+  <img src="docs/screenshots/register-dark.png" alt="Register - Dark Mode" width="48%">
+  <img src="docs/screenshots/register-light.png" alt="Register - Light Mode" width="48%">
+</p>
+
+---
+
+### Mobile
+
+<p align="center">
+  <img src="docs/screenshots/dashboard-mobile.png" alt="Dashboard - Mobile" width="30%">
+  <img src="docs/screenshots/transactions-mobile.png" alt="Transactions - Mobile" width="30%">
+  <img src="docs/screenshots/categories-mobile.png" alt="Categories - Mobile" width="30%">
+</p>
 
 ## Installation
 
