@@ -23,7 +23,7 @@ export const checkAuthentication = () => {
     }
 }
 
-export const API_URL = 'http://127.0.0.1:8000/api'
+export const API_URL = 'https://expensetracker-j7t0.onrender.com/api'
 
 /**
  * Sends JSON requests with JWT authorization and retries once after token renewal.
