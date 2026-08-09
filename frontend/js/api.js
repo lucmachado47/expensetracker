@@ -19,7 +19,7 @@ export const checkAuthentication = () => {
     const token = getAccessToken()
 
     if (!token) {
-        window.location.href = 'login.html'
+        window.location.href = 'index.html'
     }
 }
 
@@ -103,5 +103,5 @@ export const refreshAccessToken = async () => {
 export const logoutApplication = () => {
     localStorage.removeItem('access_token')
     localStorage.removeItem('refresh_token')
-    window.location.href = 'login.html'
+    window.location.href = 'index.html'
 }

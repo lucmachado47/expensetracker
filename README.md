@@ -68,7 +68,7 @@ ExpenseTracker/
 │   ├── dashboard.html            # Dashboard page
 │   ├── categories.html           # Category management page
 │   ├── transactions.html         # Transaction management page
-│   ├── login.html                # Sign-in page
+│   ├── index.html                # Sign-in page
 │   └── register.html             # Registration page
 ├── docs/                         # Project documentation
 ├── requirements.txt              # Python dependencies
