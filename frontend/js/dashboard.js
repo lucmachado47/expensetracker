@@ -5,7 +5,6 @@ import {
     logoutApplication,
     API_URL,
     apiRequest,
-    formatLabel,
 } from './api.js' 
 
 import {
@@ -94,7 +93,7 @@ const renderRows = (transactions) => {
         
         return `
         <tr>
-            <td>${formatLabel(transaction.transaction_type)}</td>
+            <td>${transaction.category_name}</td>
             <td>${transaction.transaction_amount}</td>
             <td>${transaction.description}</td>
             <td>
