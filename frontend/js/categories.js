@@ -5,6 +5,7 @@ import {
     logoutApplication,
     API_URL,
     apiRequest,
+    formatLabel,
 } from './api.js'
 
 
@@ -118,7 +119,7 @@ const loadCategories = async () => {
         categoryTableBody.innerHTML = categories.map(category => `
             <tr>
                 <td>${category.category_name}</td>
-                <td>${category.frequency}</td>
+                <td>${formatLabel(category.frequency)}</td>
                 <td>
                     <button onclick="editCategory(${category.id})">Edit</button>
                     <button onclick="deleteCategory(${category.id})">Delete</button>

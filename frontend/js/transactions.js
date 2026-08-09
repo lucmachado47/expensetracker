@@ -5,6 +5,7 @@ import {
     logoutApplication,
     API_URL,
     apiRequest,
+    formatLabel,
 } from './api.js'
 
 import {
@@ -148,7 +149,7 @@ const loadTransactions = async () => {
         transactionTableBody.innerHTML = transactions.map(transaction => `
             <tr>
                 <td>${transaction.category_name}</td>
-                <td>${transaction.transaction_type}</td>
+                <td>${formatLabel(transaction.transaction_type)}</td>
                 <td>${transaction.transaction_amount}</td>
                 <td>${transaction.transaction_date}</td>
                 <td>${transaction.description}</td>
