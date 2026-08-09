@@ -14,7 +14,7 @@ export const getAccessToken = () => localStorage.getItem('access_token')
  */
 export const getRefreshToken = () => localStorage.getItem('refresh_token')
 
-/** Redirects unauthenticated visitors before protected page content is used. */
+/** Redirects visitors to sign-in when no access token is stored locally. */
 export const checkAuthentication = () => {
     const token = getAccessToken()
 
@@ -26,7 +26,7 @@ export const checkAuthentication = () => {
 export const API_URL = 'https://expensetracker-j7t0.onrender.com/api'
 
 /**
- * Sends JSON requests with JWT authorization and retries once after token renewal.
+ * Sends JSON requests with the stored access token and retries one 401 response after renewal.
  *
  * @param {string} endpoint API URL to request.
  * @param {string} method HTTP method to use.

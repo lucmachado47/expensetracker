@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * Loads transactions for the selected reporting month and year.
  *
- * @returns {Promise<Array>} Transactions belonging to the selected period.
+ * @returns {Promise<{count: number, results: Array}>} Paginated transactions for the selected period.
  */
 const loadDashboardTransactions = async () => {
     const month = getSelectedMonth()
@@ -69,7 +69,7 @@ const loadDashboardTransactions = async () => {
 } 
 
 /**
- * Identifies expenses dated after the current day for separate pending treatment.
+ * Identifies expenses whose date is later than the current client date.
  *
  * @param {Object} transaction Transaction returned by the API.
  * @returns {boolean} Whether the expense is scheduled in the future.
@@ -126,7 +126,7 @@ const renderTransactionTables = (transactions) => {
 }
 
 /**
- * Calculates the monthly totals for each transaction type.
+ * Calculates totals for each transaction type in the loaded reporting period.
  *
  * @param {Array} transactions List of transactions returned by the API.
  * @returns {Object} Aggregated totals used by the dashboard chart.
@@ -168,7 +168,7 @@ const formatCurrency = (value) => {
 /**
  * Renders selected-period income, expense, and net-balance summary values.
  *
- * @param {Object} totals Aggregated income, expense, and investment values.
+ * @param {Object} totals Aggregated income, expense, and investment values; balance excludes investments.
  */
 const renderStats = (totals) => {
     const netBalance = totals.totalIncome - totals.totalExpense

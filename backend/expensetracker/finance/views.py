@@ -80,14 +80,14 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView): # type: ignore
 class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
     """List and create authenticated user's transactions.
 
-    Supports optional filtering through month and year query parameters.
+    Supports optional month, year, and text-search filters.
     """
 
     permission_classes = [IsAuthenticated]
     serializer_class = TransactionSerializer
 
     def get_queryset(self):
-        """Return private transactions, optionally narrowed to a reporting period."""
+        """Return private transactions filtered by the supplied reporting and search parameters."""
 
         queryset = Transaction.objects.filter(user=self.request.user).order_by('-transaction_date', '-id')
 

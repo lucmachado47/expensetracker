@@ -5,16 +5,16 @@ from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
 
-load_dotenv() # Load environment variables from .env file
+load_dotenv()  # Load local environment variables when a .env file is available.
 
 # Resolve project-relative paths from the Django project directory.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# The secret key is supplied by the local secrets module.
+# Keep the Django secret outside source control.
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# Disable Django debug pages outside local development.
+# Debug mode is enabled only when DEBUG is the exact string "True".
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
@@ -77,6 +77,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'expensetracker.wsgi.application'
 
 
+# DATABASE_URL selects the database backend; connections require SSL and may be reused for up to ten minutes.
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
