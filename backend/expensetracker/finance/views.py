@@ -4,10 +4,11 @@ from rest_framework.response import Response # type: ignore
 from rest_framework import status, generics # type: ignore
 from rest_framework.views import APIView # type: ignore
 from rest_framework.exceptions import ValidationError # type: ignore
-from finance.models import Category, Transaction # type: ignore
+from finance.models import Category, Transaction, TransactionType # type: ignore
 from .serializers import CategorySerializer, TransactionSerializer, RegisterSerializer # type: ignore
 from rest_framework.permissions import IsAuthenticated # type: ignore
 from django.db.models import Q # type: ignore
+from django.utils.dateparse import parse_date # type: ignore
 
 class RegisterView(APIView):
     """Register a new user from username, email, and matching passwords."""
@@ -80,7 +81,7 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView): # type: ignore
 class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
     """List and create authenticated user's transactions.
 
-    Supports optional month, year, and text-search filters.
+    Supports optional month, year, type, before, and text-search filters.
     """
 
     permission_classes = [IsAuthenticated]
@@ -127,7 +128,26 @@ class TransactionListCreateView(generics.ListCreateAPIView): # type: ignore
                 Q(description__icontains=search)
             )
 
-        return queryset 
+        transaction_type = self.request.query_params.get('type')
+
+        if transaction_type:
+            if transaction_type not in TransactionType.values:
+                raise ValidationError({"type": "Type must be one of INCOME, EXPENSE, or INVESTMENT."})
+
+            queryset = queryset.filter(transaction_type=transaction_type)
+
+        before = self.request.query_params.get('before')
+
+        if before:
+            # Validate the optional cutoff date before filtering transactions up to and including it.
+            parsed_before = parse_date(before)
+
+            if parsed_before is None:
+                raise ValidationError({"before": "Before must be a valid date in YYYY-MM-DD format."})
+
+            queryset = queryset.filter(transaction_date__lte=parsed_before)
+
+        return queryset
 
     def perform_create(self, serializer):
         """Assign transaction ownership from the authenticated request."""

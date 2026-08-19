@@ -135,7 +135,12 @@ const loadTransactions = async () => {
 
         renderSkeletonRows(transactionTableBody, 6)
 
-        const response = await apiRequest(`${API_URL}/transactions/?page=${currentPage}&month=${month}&year=${year}&search=${searchTerm}`, 'GET')
+        const params = new URLSearchParams({ page: currentPage, year, search: searchTerm })
+        if (month) {
+            params.set('month', month)
+        }
+
+        const response = await apiRequest(`${API_URL}/transactions/?${params}`, 'GET')
 
         if (!response.ok) {
             throw new Error('Failed to load transactions')

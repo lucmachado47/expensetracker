@@ -4,10 +4,11 @@ const cssVar = (name) => getComputedStyle(document.documentElement).getPropertyV
 /**
  * Returns the reporting month selected in the dashboard controls.
  *
- * @returns {number} Selected calendar month.
+ * @returns {number|null} Selected calendar month, or null when "All months" is selected.
  */
 export const getSelectedMonth = () => {
-    return Number(document.getElementById('selectedMonth').value)
+    const value = document.getElementById('selectedMonth').value
+    return value ? Number(value) : null
 }
 
 /**
@@ -43,9 +44,9 @@ const buildGradient = (ctx, chartArea, colorHex) => {
 }
 
 /**
- * Renders the selected-period financial totals as a bar chart.
+ * Renders the selected-period income and expense totals alongside the cumulative investment total as a bar chart.
  *
- * @param {{totalIncome: number, totalExpense: number, totalInvestment: number}} totals Aggregated transaction totals.
+ * @param {{totalIncome: number, totalExpense: number, totalInvestment: number}} totals Selected-period income/expense totals and the cumulative investment total.
  */
 export const createChart = (totals) => {
     const canvas = document.getElementById('myChart')
@@ -68,7 +69,7 @@ export const createChart = (totals) => {
     chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Income', 'Expense', 'Investment'],
+            labels: ['Income', 'Expense', 'Investment (Total)'],
             datasets: [{
                 label: 'Amount',
                 data: [totals.totalIncome, totals.totalExpense, totals.totalInvestment],

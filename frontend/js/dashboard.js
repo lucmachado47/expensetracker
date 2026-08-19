@@ -48,16 +48,17 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * Loads transactions for the selected reporting month and year.
  *
+ * @param {number|null} month Selected calendar month, or null for all months in the year.
+ * @param {number} year Selected reporting year.
  * @returns {Promise<{count: number, results: Array}>} Paginated transactions for the selected period.
  */
-const loadDashboardTransactions = async () => {
-    const month = getSelectedMonth()
-    const year = getSelectedYear()
+const loadDashboardTransactions = async (month, year) => {
+    const params = new URLSearchParams({ page_size: '1000', year })
+    if (month) {
+        params.set('month', month)
+    }
 
-    const response = await apiRequest(
-        `${API_URL}/transactions/?page_size=1000&month=${month}&year=${year}`,
-        'GET'
-    )
+    const response = await apiRequest(`${API_URL}/transactions/?${params}`, 'GET')
 
     if (!response.ok) {
         throw new Error('Failed to load transactions')
@@ -66,7 +67,58 @@ const loadDashboardTransactions = async () => {
     const data = await response.json()
 
     return data
-} 
+}
+
+/**
+ * Formats a date as YYYY-MM-DD using local calendar fields, avoiding UTC-shift off-by-one-day bugs.
+ *
+ * @param {Date} date Date to format.
+ * @returns {string} Locally formatted calendar date.
+ */
+const formatDate = (date) => {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+}
+
+/**
+ * Determines the last calendar day of the selected reporting period.
+ *
+ * @param {number|null} month Selected calendar month, or null for "all months".
+ * @param {number} year Selected reporting year.
+ * @returns {string} The period's last day, formatted as YYYY-MM-DD.
+ */
+const getPeriodEndDate = (month, year) => {
+    // Day 0 of a given month rolls back to the previous month's last day.
+    const endDate = month ? new Date(year, month, 0) : new Date(year, 12, 0)
+    return formatDate(endDate)
+}
+
+/**
+ * Loads the cumulative investment total for all transactions dated on or before the selected period's end.
+ *
+ * @param {number|null} month Selected calendar month, or null for all months in the year.
+ * @param {number} year Selected reporting year.
+ * @returns {Promise<number>} Sum of investment transaction amounts up to and including the period's end.
+ */
+const loadCumulativeInvestmentTotal = async (month, year) => {
+    const params = new URLSearchParams({
+        page_size: '1000',
+        type: 'INVESTMENT',
+        before: getPeriodEndDate(month, year),
+    })
+
+    const response = await apiRequest(`${API_URL}/transactions/?${params}`, 'GET')
+
+    if (!response.ok) {
+        throw new Error('Failed to load cumulative investment total')
+    }
+
+    const data = await response.json()
+
+    return data.results.reduce((sum, transaction) => sum + Number(transaction.transaction_amount), 0)
+}
 
 /**
  * Identifies expenses whose date is later than the current client date.
@@ -206,10 +258,17 @@ const refreshDashboard = async () => {
     setDashboardLoading(true)
 
     try {
-        const transactions = await loadDashboardTransactions()
+        const month = getSelectedMonth()
+        const year = getSelectedYear()
+
+        const [transactions, cumulativeInvestment] = await Promise.all([
+            loadDashboardTransactions(month, year),
+            loadCumulativeInvestmentTotal(month, year),
+        ])
+
         const totals = calculateTotals(transactions.results)
         renderStats(totals)
-        createChart(totals)
+        createChart({ ...totals, totalInvestment: cumulativeInvestment })
         renderTransactionTables(transactions.results)
     } catch (error) {
         console.error('Error:', error)
