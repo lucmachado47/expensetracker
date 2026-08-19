@@ -27,6 +27,20 @@
   resize: vertical;
 }
 
+/* Align the withdrawal checkbox with its label text instead of the default block-label stacking. */
+.form-group label.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
 .transactionsTable {
   padding: 1.5rem;
 }

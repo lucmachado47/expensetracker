@@ -3,7 +3,7 @@
 from django.contrib.auth import get_user_model # type: ignore
 from rest_framework import serializers # type: ignore
 
-from finance.models import Category, Transaction # type: ignore
+from finance.models import Category, Transaction, TransactionType # type: ignore
 
 User = get_user_model()
 
@@ -58,6 +58,19 @@ class TransactionSerializer(serializers.ModelSerializer):
         if value.user != user:
             raise serializers.ValidationError("Category does not belong to the authenticated user.")
         return value
+
+    def validate(self, attrs):
+        """Restrict negative amounts to investment transactions (withdrawals)."""
+
+        transaction_type = attrs.get('transaction_type', getattr(self.instance, 'transaction_type', None))
+        amount = attrs.get('transaction_amount', getattr(self.instance, 'transaction_amount', None))
+
+        if amount is not None and amount < 0 and transaction_type != TransactionType.INVESTMENT:
+            raise serializers.ValidationError(
+                {"transaction_amount": "Only investment transactions may have a negative amount."}
+            )
+
+        return attrs
 
     class Meta:
         model = Transaction

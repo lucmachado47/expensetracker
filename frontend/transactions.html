@@ -100,6 +100,12 @@
                             <label for="transactionAmount">Amount:</label>
                             <input type="number" id="transactionAmount" name="transaction_amount" step="0.01" min="0" required>
                         </div>
+                        <div class="form-group" id="withdrawalGroup" style="display: none;">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="transactionWithdrawal">
+                                Withdrawal (money taken out of this investment)
+                            </label>
+                        </div>
                         <div class="form-group">
                             <label for="transactionDate">Date:</label>
                             <input type="date" id="transactionDate" name="transaction_date" required>

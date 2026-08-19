@@ -146,7 +146,7 @@ const renderRows = (transactions) => {
         return `
         <tr>
             <td>${transaction.category_name}</td>
-            <td>${transaction.transaction_amount}</td>
+            <td>${transaction.transaction_amount}${Number(transaction.transaction_amount) < 0 ? ' <span class="withdrawal-tag">Withdrawal</span>' : ''}</td>
             <td>${transaction.description}</td>
             <td>
                 ${transaction.transaction_date}

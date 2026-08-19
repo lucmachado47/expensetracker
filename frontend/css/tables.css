@@ -99,6 +99,22 @@
   border-radius: var(--radius-full);
 }
 
+/* Mark investment transactions with a negative amount as withdrawals. */
+.withdrawal-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 0.5rem;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-radius: var(--radius-full);
+}
+
 /* Scope horizontal scrolling and empty-state overlays to the table. */
 .table-wrapper {
   position: relative;

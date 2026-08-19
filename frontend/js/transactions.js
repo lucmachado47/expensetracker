@@ -29,9 +29,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     loadCategories()
     createTransaction()
-    
+
     document.getElementById('selectedMonth').value =
     String(new Date().getMonth() + 1)
+
+    updateWithdrawalVisibility()
+
+    document
+        .getElementById('transactionType')
+        .addEventListener('change', updateWithdrawalVisibility)
 
     document
         .getElementById('selectedMonth')
@@ -78,6 +84,18 @@ let transactions = []
 let editingTransactionId = null
 let currentPage = 1
 
+/** Shows the withdrawal checkbox only for investment transactions, clearing it otherwise. */
+const updateWithdrawalVisibility = () => {
+    const isInvestment = document.getElementById('transactionType').value === 'INVESTMENT'
+    const withdrawalGroup = document.getElementById('withdrawalGroup')
+
+    withdrawalGroup.style.display = isInvestment ? '' : 'none'
+
+    if (!isInvestment) {
+        document.getElementById('transactionWithdrawal').checked = false
+    }
+}
+
 /** Connects the transaction form to authenticated create and update requests. */
 const createTransaction = async () => {
     const transactionForm = document.getElementById('transactionForm')
@@ -92,6 +110,10 @@ const createTransaction = async () => {
             const isEditing = editingTransactionId !== null
             let response
 
+            if (data.transaction_type === 'INVESTMENT' && document.getElementById('transactionWithdrawal').checked) {
+                data.transaction_amount = String(-Number(data.transaction_amount))
+            }
+
             try {
                 if (!isEditing) {
                     response = await apiRequest(`${API_URL}/transactions/`, 'POST', data)
@@ -101,6 +123,7 @@ const createTransaction = async () => {
 
                 if (response.ok) {
                     transactionForm.reset()
+                    updateWithdrawalVisibility()
                     showToast(isEditing ? 'Transaction updated successfully!' : 'Transaction added successfully!', 'success')
 
                     if (isEditing) {
@@ -155,7 +178,7 @@ const loadTransactions = async () => {
             <tr>
                 <td>${transaction.category_name}</td>
                 <td>${formatLabel(transaction.transaction_type)}</td>
-                <td>${transaction.transaction_amount}</td>
+                <td>${transaction.transaction_amount}${Number(transaction.transaction_amount) < 0 ? ' <span class="withdrawal-tag">Withdrawal</span>' : ''}</td>
                 <td>${transaction.transaction_date}</td>
                 <td>${transaction.description}</td>
                  <td>
@@ -213,9 +236,12 @@ const editTransaction = (id) => {
     document.getElementById('submitTransaction').textContent = 'Update Transaction'
     document.getElementById('transactionCategory').value = transaction.category
     document.getElementById('transactionType').value = transaction.transaction_type
-    document.getElementById('transactionAmount').value = transaction.transaction_amount
+    document.getElementById('transactionAmount').value = Math.abs(Number(transaction.transaction_amount))
     document.getElementById('transactionDate').value = transaction.transaction_date
     document.getElementById('transactionDescription').value = transaction.description
+
+    updateWithdrawalVisibility()
+    document.getElementById('transactionWithdrawal').checked = Number(transaction.transaction_amount) < 0
 
     document.getElementsByClassName('transactions-layout')[0].scrollIntoView({ behavior: 'smooth', block: 'start'})
 }
